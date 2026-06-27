@@ -161,6 +161,7 @@ body{font-family:'Segoe UI',system-ui,sans-serif;background:#0f1117;color:#e8eaf
 </div>
 
 <script>
+var API_KEY='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';
 var cur=0,done=new Set(),topen=false,hist=[],busy=false,TOTAL=20;
 var LN=["Variables & Types","Operators","if / else","Loops","Functions","Lists","Dictionaries","Classes & OOP","File I/O","try / except","Pandas","pip & bash & sed","List comprehensions","Lambda functions","Decorators","Regex","datetime","os & pathlib","*args & **kwargs","Full roadmap"];
 
@@ -213,7 +214,7 @@ async function sendQ(){
   showDots();
   var sys='You are a friendly Python tutor for Jayaraman, a beginner in Singapore who knows SQL, Data Science, ML/AI and uses Python for his IBKR stock options trading system (ibkr_report.py, trade_setup.py). Current lesson: '+LN[cur]+'. Keep answers under 150 words. Use short analogies. Relate to trading where natural. Use **bold** for key terms. Use code blocks for code examples.';
   try{
-    var r=await fetch('https://api.anthropic.com/v1/messages',{method:'POST',headers:{'Content-Type':'application/json','anthropic-dangerous-direct-browser-access':'true','x-api-key':'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'},body:JSON.stringify({model:'claude-sonnet-4-6',max_tokens:500,system:sys,messages:hist})});
+    var r=await fetch('https://api.anthropic.com/v1/messages',{method:'POST',headers:{'Content-Type':'application/json','anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true','x-api-key':API_KEY},body:JSON.stringify({model:'claude-sonnet-4-6',max_tokens:500,system:sys,messages:hist})});
     var data=await r.json();
     var el=document.getElementById('DOTS');if(el)el.remove();
     var reply=data.content&&data.content[0]?data.content[0].text:'Something went wrong. Please try again.';
