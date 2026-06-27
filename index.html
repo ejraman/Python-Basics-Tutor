@@ -213,7 +213,7 @@ async function sendQ(){
   showDots();
   var sys='You are a friendly Python tutor for Jayaraman, a beginner in Singapore who knows SQL, Data Science, ML/AI and uses Python for his IBKR stock options trading system (ibkr_report.py, trade_setup.py). Current lesson: '+LN[cur]+'. Keep answers under 150 words. Use short analogies. Relate to trading where natural. Use **bold** for key terms. Use code blocks for code examples.';
   try{
-    var r=await fetch('https://api.anthropic.com/v1/messages',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({model:'claude-sonnet-4-6',max_tokens:500,system:sys,messages:hist})});
+    var r=await fetch('https://api.anthropic.com/v1/messages',{method:'POST',headers:{'Content-Type':'application/json','anthropic-dangerous-direct-browser-access':'true'},body:JSON.stringify({model:'claude-sonnet-4-6',max_tokens:500,system:sys,messages:hist})});
     var data=await r.json();
     var el=document.getElementById('DOTS');if(el)el.remove();
     var reply=data.content&&data.content[0]?data.content[0].text:'Something went wrong. Please try again.';
