@@ -3,580 +3,820 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Python Complete Tutor — Layer 1, 2 & 3</title>
+<title>IBKR Intelligence</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
-*{box-sizing:border-box;margin:0;padding:0}
-body{font-family:'Segoe UI',system-ui,sans-serif;background:#0f1117;color:#e8eaf0;height:100vh;display:flex;flex-direction:column;overflow:hidden}
-.topbar{background:#1a1d27;border-bottom:1px solid #2e3250;padding:10px 16px;display:flex;align-items:center;gap:12px;flex-shrink:0}
-.logo{font-size:14px;font-weight:600;color:#fb923c}
-.logosub{font-size:11px;color:#8b90a8}
-.prog-wrap{margin-left:auto;min-width:150px}
-.prog-label{font-size:10px;color:#8b90a8;display:flex;justify-content:space-between;margin-bottom:4px}
-.prog-track{height:3px;background:#2e3250;border-radius:2px;overflow:hidden}
-.prog-fill{height:100%;background:#fb923c;border-radius:2px;transition:width .4s;width:0%}
-.tutor-btn{padding:6px 13px;font-size:12px;border-radius:6px;cursor:pointer;border:1px solid #2e3250;background:#22263a;color:#8b90a8;white-space:nowrap}
-.tutor-btn:hover,.tutor-btn.on{background:rgba(251,146,60,.12);color:#fb923c;border-color:rgba(251,146,60,.4)}
-.body{display:flex;flex:1;overflow:hidden}
-.sidebar{width:190px;flex-shrink:0;background:#1a1d27;border-right:1px solid #2e3250;overflow-y:auto}
-.nav-sec{font-size:10px;text-transform:uppercase;letter-spacing:.8px;color:#8b90a8;padding:10px 12px 4px;font-weight:600}
-.ni{display:flex;align-items:center;gap:7px;padding:7px 12px;cursor:pointer;font-size:12px;color:#8b90a8;border-left:2px solid transparent}
-.ni:hover{background:#22263a;color:#e8eaf0}
-.ni.on{background:rgba(251,146,60,.1);color:#fb923c;border-left-color:#fb923c}
-.ni.done{color:#4ade80}
-.nn{font-size:9px;background:#0f1117;border-radius:3px;padding:1px 4px;font-family:monospace;flex-shrink:0}
-.center{display:flex;flex:1;overflow:hidden}
-.main{flex:1;overflow-y:auto;padding:20px}
-.tp{width:0;flex-shrink:0;border-left:1px solid #2e3250;display:flex;flex-direction:column;overflow:hidden;transition:width .2s;background:#1a1d27}
-.tp.open{width:300px}
-.tp-head{background:#22263a;border-bottom:1px solid #2e3250;padding:11px 14px;display:flex;align-items:center;gap:9px;flex-shrink:0}
-.tp-name{font-size:13px;font-weight:600;color:#e8eaf0;flex:1}
-.tp-status{font-size:11px;color:#4ade80}
-.tp-ctx{background:rgba(251,146,60,.08);border-bottom:1px solid rgba(251,146,60,.2);padding:6px 13px;font-size:11px;color:#fb923c;flex-shrink:0}
-.msgs{flex:1;overflow-y:auto;padding:11px;display:flex;flex-direction:column;gap:8px}
-.mrow{display:flex;gap:6px;align-items:flex-start}
-.mrow.u{flex-direction:row-reverse}
-.mav{width:24px;height:24px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:13px;flex-shrink:0}
-.mav.a{background:rgba(251,146,60,.2)}
-.mav.u{background:#22263a;border:1px solid #2e3250}
-.mbub{max-width:88%;padding:8px 10px;border-radius:10px;font-size:12px;line-height:1.6}
-.mbub.a{background:#22263a;border:1px solid #2e3250;border-top-left-radius:3px;color:#e8eaf0}
-.mbub.u{background:rgba(251,146,60,.13);border:1px solid rgba(251,146,60,.3);border-top-right-radius:3px;color:#fb923c}
-.mbub pre{background:#0d0f1a;border:1px solid #2e3250;border-radius:5px;padding:7px;margin:5px 0 0;font-size:10px;overflow-x:auto;white-space:pre-wrap;word-break:break-all;font-family:monospace;color:#e8eaf0}
-.mbub code{font-family:monospace;font-size:10px;background:#0d0f1a;padding:1px 4px;border-radius:3px;color:#60a5fa}
-.qrow{padding:8px 11px;border-top:1px solid #2e3250;display:flex;gap:5px;flex-wrap:wrap;flex-shrink:0}
-.qb{background:#22263a;border:1px solid #2e3250;border-radius:10px;padding:3px 8px;font-size:10px;color:#8b90a8;cursor:pointer;white-space:nowrap}
-.qb:hover{color:#fb923c;border-color:rgba(251,146,60,.4);background:rgba(251,146,60,.08)}
-.irow{border-top:1px solid #2e3250;padding:10px 11px;display:flex;gap:7px;flex-shrink:0}
-.tinput{flex:1;background:#0d0f1a;border:1px solid #2e3250;border-radius:7px;padding:7px 10px;font-size:12px;color:#e8eaf0;outline:none;resize:none;height:34px;max-height:70px;font-family:inherit;line-height:1.4}
-.tinput:focus{border-color:rgba(251,146,60,.5)}
-.tsend{background:#fb923c;border:none;border-radius:7px;width:34px;height:34px;cursor:pointer;color:#0f1117;flex-shrink:0;font-size:16px;font-weight:700}
-.tsend:disabled{opacity:.4;cursor:not-allowed}
-.lbadge{font-size:10px;text-transform:uppercase;letter-spacing:.7px;color:#fb923c;border:1px solid rgba(251,146,60,.4);border-radius:3px;padding:2px 7px;margin-bottom:8px;display:inline-block;font-weight:600}
-.ltitle{font-size:21px;font-weight:600;margin-bottom:6px;line-height:1.3;color:#e8eaf0}
-.lintro{font-size:13px;color:#8b90a8;line-height:1.7;margin-bottom:16px}
-.box{background:#1a1d27;border:1px solid #2e3250;border-radius:10px;padding:13px 15px;margin:12px 0;font-size:13px;line-height:1.7}
-.bh{font-size:10px;font-weight:600;color:#fb923c;margin-bottom:7px;text-transform:uppercase;letter-spacing:.5px}
-.analogy{background:rgba(251,146,60,.07);border-left:2px solid rgba(251,146,60,.5);padding:8px 11px;border-radius:0 5px 5px 0;margin-top:9px;font-size:12px;color:#d4a07a;font-style:italic}
-.cb{background:#0d0f1a;border:1px solid #2e3250;border-radius:7px;margin:11px 0;overflow:hidden}
-.cbh{background:#22263a;padding:6px 12px;font-size:10px;color:#8b90a8;font-family:monospace;border-bottom:1px solid #2e3250;display:flex;align-items:center;gap:6px}
-.dots{display:flex;gap:4px}
-.dot{width:8px;height:8px;border-radius:50%}
-.pre{padding:12px;font-family:monospace;font-size:12px;line-height:1.7;overflow-x:auto;margin:0;white-space:pre-wrap;word-break:break-all;color:#e8eaf0}
-.rl{background:#1a1d27;border:1px solid #2e3250;border-radius:7px;padding:9px 13px;display:flex;gap:9px;align-items:flex-start;margin-bottom:6px}
-.rt{font-size:12px;font-weight:600;color:#e8eaf0;margin-bottom:2px}
-.rd{font-size:12px;color:#8b90a8}
-.ex{background:#1a1d27;border:1px solid #2e3250;border-radius:9px;margin:16px 0;overflow:hidden}
-.exh{background:#22263a;padding:9px 13px;font-size:11px;font-weight:600;color:#fb923c;text-transform:uppercase;letter-spacing:.7px;border-bottom:1px solid #2e3250}
-.exp{padding:11px 13px;font-size:13px;color:#e8eaf0;line-height:1.65;border-bottom:1px solid #2e3250}
-.exp code{font-family:monospace;font-size:11px;background:#0d0f1a;padding:1px 5px;border-radius:3px;color:#60a5fa}
-.cin{width:100%;min-height:90px;background:#0d0f1a;border:none;border-bottom:1px solid #2e3250;color:#e8eaf0;font-family:monospace;font-size:12px;padding:10px 13px;resize:vertical;outline:none;line-height:1.6}
-.exa{display:flex;align-items:center;gap:8px;padding:9px 13px}
-.brun{background:#fb923c;color:#0f1117;border:none;border-radius:6px;padding:6px 14px;font-size:12px;font-weight:700;cursor:pointer}
-.bhint{background:transparent;color:#8b90a8;border:1px solid #2e3250;border-radius:6px;padding:6px 12px;font-size:12px;cursor:pointer}
-.hbox{margin:0 13px 11px;background:rgba(245,200,66,.07);border:1px solid rgba(245,200,66,.3);border-radius:5px;padding:9px 11px;font-size:12px;color:#d4c07a;display:none}
-.osuccess{margin:0 13px 11px;background:rgba(74,222,128,.08);border:1px solid rgba(74,222,128,.25);color:#4ade80;border-radius:5px;padding:9px 11px;font-size:12px;line-height:1.5}
-.oinfo{margin:0 13px 11px;background:rgba(96,165,250,.08);border:1px solid rgba(96,165,250,.2);color:#60a5fa;border-radius:5px;padding:9px 11px;font-size:12px}
-.nr{display:flex;justify-content:space-between;margin-top:20px;padding-top:16px;border-top:1px solid #2e3250}
-.bnav{background:#1a1d27;border:1px solid #2e3250;border-radius:6px;padding:8px 16px;font-size:12px;font-weight:600;color:#e8eaf0;cursor:pointer}
-.bnav:hover{background:#22263a}
-.bnav.p{background:#fb923c;border-color:#fb923c;color:#0f1117}
-.bnav:disabled{opacity:.3;cursor:not-allowed}
-.tbl{width:100%;border-collapse:collapse;margin:10px 0;font-size:12px}
-.tbl th{background:#22263a;color:#8b90a8;padding:7px 11px;border:1px solid #2e3250;font-size:10px;text-align:left;text-transform:uppercase;letter-spacing:.5px;font-weight:600}
-.tbl td{padding:7px 11px;border:1px solid #2e3250;color:#e8eaf0}
-.tbl code{font-family:monospace;color:#60a5fa;font-size:11px}
-.tip{background:rgba(96,165,250,.07);border:1px solid rgba(96,165,250,.25);border-radius:9px;padding:12px 15px;margin:12px 0;font-size:13px;color:#a8c8f8;line-height:1.7}
-.warn{background:rgba(245,200,66,.07);border:1px solid rgba(245,200,66,.25);border-radius:9px;padding:12px 15px;margin:12px 0;font-size:13px;color:#d4c07a;line-height:1.7}
-.success-card{background:rgba(74,222,128,.07);border:1px solid rgba(74,222,128,.25);border-radius:9px;padding:12px 15px;margin:12px 0;font-size:13px;color:#4ade80;line-height:1.7}
-@keyframes pulse{0%,60%,100%{transform:translateY(0)}30%{transform:translateY(-5px)}}
-.py-status{font-size:10px;padding:3px 9px;border-radius:5px;font-weight:600;border:1px solid;margin-left:6px;transition:all .3s}
-.py-status.loading{background:rgba(251,191,36,.1);color:#fbbf24;border-color:rgba(251,191,36,.3)}
-.py-status.ready{background:rgba(74,222,128,.1);color:#4ade80;border-color:rgba(74,222,128,.3)}
-.py-status.fail{background:rgba(239,68,68,.1);color:#ef4444;border-color:rgba(239,68,68,.3)}
-.out-real{background:#0d0f1a;border:1px solid #2e3250;border-radius:0 0 7px 7px;padding:10px 13px;font-family:monospace;font-size:12px;line-height:1.7;min-height:38px;max-height:180px;overflow-y:auto;white-space:pre-wrap;word-break:break-all;color:#7ee787;margin:0 0 6px}
-.out-real.err{color:#ff7b72}
-.out-real.ph{color:#555;font-style:italic}
-.run-row-live{display:flex;align-items:center;gap:8px;background:#22263a;border:1px solid #2e3250;border-bottom:none;border-radius:7px 7px 0 0;padding:7px 10px}
-.run-label{font-size:10px;font-weight:600;color:#fb923c;text-transform:uppercase;letter-spacing:.5px;flex:1}
-.brun-live{background:#4ade80;color:#0f1117;border:none;border-radius:5px;padding:5px 13px;font-size:11px;font-weight:700;cursor:pointer;display:flex;align-items:center;gap:4px}
-.brun-live:hover{background:#22c55e}
-.brun-live:disabled{opacity:.4;cursor:not-allowed}
-.breset{background:transparent;color:#8b90a8;border:1px solid #2e3250;border-radius:5px;padding:5px 10px;font-size:11px;cursor:pointer}
-.breset:hover{color:#e8eaf0;border-color:#8b90a8}
-.cin-wrap{position:relative}
-</style>
+:root{--navy:#0d1b2a;--navy-mid:#1b2d42;--gold:#c9a84c;--gold-light:#e8c97a;--green:#2ecc71;--amber:#f39c12;--red:#e74c3c;--text:#e8edf2;--text-muted:#8fa3b8;--text-dim:#5c7a94;--bg:#07111c;--card:#0f1e2e;--card-border:#1e3a52;--divider:#162534;--mono:'JetBrains Mono',monospace;--sans:'Inter',-apple-system,sans-serif;}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:var(--sans);background:var(--bg);color:var(--text);min-height:100vh;font-size:14px;}
+.topbar{background:var(--navy);border-bottom:1px solid var(--card-border);padding:0 24px;height:48px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100;}
+.brand{display:flex;align-items:center;gap:8px;}
+.dot{width:7px;height:7px;background:var(--gold);border-radius:50%;animation:pulse 2s infinite;}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:0.4}}
+.brand h1{font-size:14px;font-weight:600;letter-spacing:.5px;}
+.brand span{font-size:11px;color:var(--text-muted);margin-left:6px;}
+.topbar-meta{font-family:var(--mono);font-size:10px;color:var(--text-dim);text-align:right;line-height:1.4;}
+.layout{display:grid;grid-template-columns:260px 1fr;height:calc(100vh - 48px);}
+.left-panel{background:var(--card);border-right:1px solid var(--card-border);padding:16px;overflow-y:auto;display:flex;flex-direction:column;gap:12px;}
+.panel-title{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--text-dim);}
+.field-group{display:flex;flex-direction:column;gap:4px;}
+.field-label{font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.8px;color:var(--text-dim);}
+.field-hint{font-size:10px;color:var(--text-dim);font-style:italic;}
+select,input[type=text]{background:var(--navy);border:1px solid var(--card-border);color:var(--text);border-radius:6px;padding:8px 10px;font-size:12px;font-family:var(--sans);width:100%;outline:none;transition:border-color .2s;-webkit-appearance:none;appearance:none;}
+select{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='10' viewBox='0 0 12 12'%3E%3Cpath fill='%238fa3b8' d='M6 8L1 3h10z'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 10px center;padding-right:28px;}
+select:focus,input[type=text]:focus{border-color:var(--gold);}
+input[type=text]::placeholder{color:var(--text-dim);}
+.btn{width:100%;padding:10px;background:var(--gold);color:var(--navy);border:none;border-radius:6px;font-size:13px;font-weight:700;cursor:pointer;transition:background .2s;font-family:var(--sans);}
+.btn:hover{background:var(--gold-light);}
+.btn:disabled{opacity:.5;cursor:not-allowed;}
+.divider{height:1px;background:var(--divider);}
+.freshness{display:flex;flex-direction:column;gap:5px;}
+.fi{display:flex;align-items:center;gap:6px;font-size:10px;color:var(--text-dim);}
+.fd{width:5px;height:5px;border-radius:50%;flex-shrink:0;}
+.btn-mkt{width:100%;padding:7px;background:transparent;border:1px solid var(--card-border);color:var(--text-muted);border-radius:6px;font-size:11px;cursor:pointer;transition:all .2s;font-family:var(--sans);margin-bottom:4px;}
+.btn-mkt:hover{border-color:var(--gold);color:var(--gold);}
+.prog-wrap{display:none;}
+.prog-label{font-size:10px;color:var(--text-muted);margin-bottom:6px;font-family:var(--mono);}
+.prog-track{height:2px;background:var(--navy-mid);border-radius:1px;}
+.prog-fill{height:100%;background:var(--gold);border-radius:1px;transition:width .4s;width:0%;}
+.mkt-bar{background:#162534;border-bottom:1px solid var(--card-border);padding:6px 24px;display:flex;align-items:center;gap:12px;font-size:11px;font-family:var(--mono);}
+.mkt-item{color:var(--text-muted);}
+.mkt-stance{color:var(--gold);}
+.mkt-sep{color:var(--text-dim);}
+.right-panel{overflow-y:auto;padding:16px;}
+.empty-state{display:flex;flex-direction:column;align-items:center;justify-content:center;height:100%;color:var(--text-dim);text-align:center;gap:8px;}
+.empty-state .icon{font-size:32px;opacity:0.3;}
+.rcard{background:var(--card);border:1px solid var(--card-border);border-radius:10px;overflow:hidden;margin-bottom:16px;}
+.rcard-hdr{background:var(--navy-mid);padding:12px 16px;display:flex;justify-content:space-between;align-items:flex-start;border-bottom:1px solid var(--card-border);}
+.tkr{font-size:20px;font-weight:700;font-family:var(--mono);letter-spacing:1px;}
+.tprice{font-size:16px;font-weight:600;color:var(--gold);font-family:var(--mono);margin-top:2px;}
+.tearn{font-size:10px;color:var(--text-dim);margin-top:3px;}
+.badges{display:flex;flex-direction:column;align-items:flex-end;gap:4px;}
+.badge{padding:3px 10px;border-radius:20px;font-size:10px;font-weight:700;letter-spacing:.5px;text-transform:uppercase;}
+.bg{background:rgba(46,204,113,.15);color:var(--green);border:1px solid rgba(46,204,113,.3);}
+.ba{background:rgba(243,156,18,.15);color:var(--amber);border:1px solid rgba(243,156,18,.3);}
+.br{background:rgba(231,76,60,.15);color:var(--red);border:1px solid rgba(231,76,60,.3);}
+.bk{background:rgba(143,163,184,.1);color:var(--text-muted);border:1px solid rgba(143,163,184,.2);}
+.rsec{padding:12px 16px;border-bottom:1px solid var(--divider);}
+.rsec:last-child{border-bottom:none;}
+.rsec-t{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:1.2px;color:var(--text-dim);margin-bottom:10px;}
+.mgrid{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;}
+.mc{background:var(--navy);border:1px solid var(--card-border);border-radius:6px;padding:8px 10px;}
+.mv{font-size:13px;font-weight:600;font-family:var(--mono);}
+.ml{font-size:9px;color:var(--text-dim);margin-top:1px;text-transform:uppercase;letter-spacing:.5px;}
+.alert{padding:6px 10px;border-radius:5px;font-size:11px;margin:2px 0;}
+.aw{background:rgba(243,156,18,.08);border-left:3px solid var(--amber);color:#f8c96b;}
+.af{background:rgba(231,76,60,.08);border-left:3px solid var(--red);color:#f1948a;}
+.ae{background:rgba(230,126,34,.08);border-left:3px solid #e67e22;color:#f0a500;}
+.vtbl{width:100%;border-collapse:collapse;}
+.vtbl tr{border-bottom:1px solid var(--divider);}
+.vtbl tr:last-child{border-bottom:none;}
+.vtbl td{padding:5px 4px;font-size:12px;}
+.vtbl td:first-child{color:var(--text-muted);}
+.vtbl td:last-child{text-align:right;font-family:var(--mono);font-weight:600;}
+.intel h3{font-size:12px;font-weight:700;color:var(--gold-light);margin:10px 0 4px;}
+.intel h4{font-size:10px;font-weight:600;color:var(--text-muted);margin:8px 0 3px;text-transform:uppercase;letter-spacing:.5px;}
+.intel p{font-size:12px;line-height:1.7;margin:3px 0;}
+.intel li{font-size:12px;line-height:1.7;margin:2px 0 2px 14px;}
+.intel strong{color:var(--text);font-weight:600;}
+.src-link{display:block;font-size:11px;color:#5b9bd5;text-decoration:none;font-family:var(--mono);margin:2px 0;}
+.src-link:hover{color:var(--gold-light);}
+.cfooter{padding:6px 16px;background:var(--navy);border-top:1px solid var(--divider);}
+.cfooter span{font-size:9px;color:var(--text-dim);font-family:var(--mono);}
+.err{background:rgba(231,76,60,.08);border:1px solid rgba(231,76,60,.3);border-radius:10px;padding:14px 16px;margin-bottom:12px;color:#f1948a;font-size:12px;}
+.ts-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
+.ts-cell{background:var(--navy);border:1px solid var(--card-border);border-radius:6px;padding:8px 12px;}
+.ts-val{font-size:14px;font-weight:700;font-family:var(--mono);}
+.ts-lbl{font-size:9px;color:var(--text-dim);text-transform:uppercase;letter-spacing:.5px;margin-top:2px;}
+.ts-signal-green{color:var(--green);font-weight:700;}
+.ts-signal-amber{color:var(--amber);font-weight:700;}
+.ts-signal-red{color:var(--red);font-weight:700;}
+.iv-live{color:var(--green);font-size:10px;}
+.iv-est{color:var(--amber);font-size:10px;}
+
+  .disc-panel{display:none;padding:16px 0;}
+  .disc-sector{margin-bottom:18px;}
+  .disc-sector-title{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--gold);border-bottom:1px solid var(--card-border);padding-bottom:6px;margin-bottom:10px;}
+  .disc-cards{display:flex;gap:10px;flex-wrap:wrap;}
+  .disc-card{background:var(--card-bg);border:1px solid var(--card-border);border-radius:8px;padding:10px 14px;min-width:160px;cursor:pointer;transition:border-color .2s;}
+  .disc-card:hover{border-color:var(--gold);}
+  .disc-ticker{font-size:15px;font-weight:700;color:var(--gold);}
+  .disc-name{font-size:10px;color:var(--text-dim);margin-bottom:6px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:160px;}
+  .disc-meta{font-size:10px;color:var(--text-muted);line-height:1.6;}
+  .disc-meta span{color:var(--text);}
+  .disc-warning{background:#3d2a00;border:1px solid #c9850a;border-radius:6px;padding:8px 12px;font-size:10px;color:#f0c060;margin-bottom:14px;}
+  .disc-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;}
+  .disc-scan-info{font-size:10px;color:var(--text-dim);}
+  .disc-sector-filters{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:14px;}
+  .disc-filter-btn{padding:4px 10px;border:1px solid var(--card-border);border-radius:12px;font-size:10px;color:var(--text-muted);cursor:pointer;background:transparent;transition:all .2s;}
+  .disc-filter-btn.active{border-color:var(--gold);color:var(--gold);background:rgba(201,168,76,0.1);}
+  .disc-run-bar{display:flex;gap:8px;margin-bottom:14px;align-items:center;flex-wrap:wrap;}
+  .disc-run-btn{padding:6px 14px;background:var(--gold);color:var(--navy);border:none;border-radius:6px;font-size:11px;font-weight:700;cursor:pointer;}
+  .disc-run-btn:disabled{opacity:.5;cursor:not-allowed;}
+  .disc-status{font-size:10px;color:var(--text-dim);}
+  .disc-no-result{font-size:11px;color:var(--text-dim);font-style:italic;padding:8px 0;}
+
+  /* ── Alerts (Phase 9) ── */
+  .wa-panel{display:none;padding:16px 0;}
+  .wa-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;}
+  .wa-title{font-size:13px;font-weight:700;color:var(--text);}
+  .wa-cache-note{font-size:10px;color:var(--text-dim);margin-left:10px;}
+  .wa-refresh-btn{padding:6px 14px;background:var(--gold);color:var(--navy);border:none;border-radius:6px;font-size:11px;font-weight:700;cursor:pointer;}
+  .wa-refresh-btn:disabled{opacity:.5;cursor:not-allowed;}
+  .wa-section{margin-bottom:18px;}
+  .wa-section-title{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--gold);border-bottom:1px solid var(--card-border);padding-bottom:6px;margin-bottom:10px;}
+  .wa-card{background:var(--card);border:1px solid var(--card-border);border-radius:8px;padding:10px 14px;margin-bottom:8px;}
+  .wa-card.roll{border-left:3px solid var(--gold);}
+  .wa-card.profit{border-left:3px solid var(--green);}
+  .wa-card.candidate{border-left:3px solid #5b9bd5;}
+  .wa-card .wa-ticker{font-weight:700;color:var(--gold);font-family:var(--mono);font-size:13px;}
+  .wa-card .wa-msg{font-size:12px;color:var(--text);margin-top:3px;}
+  .wa-card .wa-reasons{font-size:10px;color:var(--text-dim);margin-top:3px;}
+  .wa-banner{display:none;align-items:center;gap:10px;background:#3d2a00;border:1px solid #c9850a;border-radius:6px;padding:8px 12px;margin:10px 24px 0;font-size:11px;color:#f0c060;}
+  .wa-banner-btn{margin-left:auto;background:var(--gold);color:var(--navy);border:none;padding:4px 12px;border-radius:4px;cursor:pointer;font-weight:700;font-size:10px;}
+  .wa-badge{background:var(--red);color:#fff;border-radius:10px;padding:1px 7px;font-size:9px;margin-left:6px;}
+
+  </style>
 </head>
 <body>
-
 <div class="topbar">
-  <span style="font-size:22px">🐍</span>
-  <div><div class="logo">Python Complete Tutor</div><div class="logosub">Layer 1 · Layer 2 · Layer 3 — 20 lessons</div></div>
-  <div class="prog-wrap">
-    <div class="prog-label"><span>Progress</span><span id="PT">0 / 20</span></div>
-    <div class="prog-track"><div class="prog-fill" id="PF"></div></div>
-  </div>
-  <span class="py-status loading" id="PYST">⏳ Python loading…</span>
-  <button class="tutor-btn" id="TBTN" onclick="toggleTutor()">💬 Ask tutor</button>
+  <div class="brand"><div class="dot"></div><h1>IBKR Intelligence</h1><span>Pre-trade analysis &middot; Home network only</span></div>
+  <div class="topbar-meta">__DATE__<br>__TIME__ SGT</div>
 </div>
-
-<div class="body">
-  <nav class="sidebar">
-    <div class="nav-sec">Layer 1 — Basics</div>
-    <div class="ni on" onclick="go(0)"><span class="nn">01</span>Variables &amp; Types<span id="k0" style="margin-left:auto;font-size:11px"></span></div>
-    <div class="ni" onclick="go(1)"><span class="nn">02</span>Operators<span id="k1" style="margin-left:auto;font-size:11px"></span></div>
-    <div class="ni" onclick="go(2)"><span class="nn">03</span>if / else<span id="k2" style="margin-left:auto;font-size:11px"></span></div>
-    <div class="ni" onclick="go(3)"><span class="nn">04</span>Loops<span id="k3" style="margin-left:auto;font-size:11px"></span></div>
-    <div class="ni" onclick="go(4)"><span class="nn">05</span>Functions<span id="k4" style="margin-left:auto;font-size:11px"></span></div>
-    <div class="ni" onclick="go(5)"><span class="nn">06</span>Lists<span id="k5" style="margin-left:auto;font-size:11px"></span></div>
-    <div class="ni" onclick="go(6)"><span class="nn">07</span>Dictionaries<span id="k6" style="margin-left:auto;font-size:11px"></span></div>
-    <div class="nav-sec">Layer 2 — Intermediate</div>
-    <div class="ni" onclick="go(7)"><span class="nn">08</span>Classes &amp; OOP<span id="k7" style="margin-left:auto;font-size:11px"></span></div>
-    <div class="ni" onclick="go(8)"><span class="nn">09</span>File I/O<span id="k8" style="margin-left:auto;font-size:11px"></span></div>
-    <div class="ni" onclick="go(9)"><span class="nn">10</span>try / except<span id="k9" style="margin-left:auto;font-size:11px"></span></div>
-    <div class="ni" onclick="go(10)"><span class="nn">11</span>Pandas<span id="k10" style="margin-left:auto;font-size:11px"></span></div>
-    <div class="ni" onclick="go(11)"><span class="nn">12</span>pip &amp; bash &amp; sed<span id="k11" style="margin-left:auto;font-size:11px"></span></div>
-    <div class="nav-sec">Layer 3 — Advanced</div>
-    <div class="ni" onclick="go(12)"><span class="nn">13</span>List comprehensions<span id="k12" style="margin-left:auto;font-size:11px"></span></div>
-    <div class="ni" onclick="go(13)"><span class="nn">14</span>Lambda functions<span id="k13" style="margin-left:auto;font-size:11px"></span></div>
-    <div class="ni" onclick="go(14)"><span class="nn">15</span>Decorators<span id="k14" style="margin-left:auto;font-size:11px"></span></div>
-    <div class="ni" onclick="go(15)"><span class="nn">16</span>Regex<span id="k15" style="margin-left:auto;font-size:11px"></span></div>
-    <div class="ni" onclick="go(16)"><span class="nn">17</span>datetime<span id="k16" style="margin-left:auto;font-size:11px"></span></div>
-    <div class="ni" onclick="go(17)"><span class="nn">18</span>os &amp; pathlib<span id="k17" style="margin-left:auto;font-size:11px"></span></div>
-    <div class="ni" onclick="go(18)"><span class="nn">19</span>*args &amp; **kwargs<span id="k18" style="margin-left:auto;font-size:11px"></span></div>
-    <div class="ni" onclick="go(19)"><span class="nn">20</span>Full roadmap<span id="k19" style="margin-left:auto;font-size:11px"></span></div>
-  </nav>
-
-  <div class="center">
-    <div class="main" id="MN"></div>
-    <div class="tp" id="TP">
-      <div class="tp-head">
-        <span style="font-size:18px">🐍</span>
-        <div style="flex:1"><div class="tp-name">Python Tutor</div><div class="tp-status">● Ready</div></div>
-        <button onclick="toggleTutor()" style="background:none;border:none;color:#8b90a8;cursor:pointer;font-size:18px;line-height:1">✕</button>
-      </div>
-      <div class="tp-ctx">Lesson: <span id="CTX">Variables &amp; Types</span></div>
-      <div class="msgs" id="MSG">
-        <div class="mrow"><div class="mav a">🐍</div><div class="mbub a">Hi! Ask me <strong>any Python doubt</strong> — syntax, concepts, or how it connects to your IBKR code. No question is too basic!</div></div>
-      </div>
-      <div class="qrow">
-        <button class="qb" onclick="qa('What is self in a class?')">What is self?</button>
-        <button class="qb" onclick="qa('Difference between = and ==')">= vs ==</button>
-        <button class="qb" onclick="qa('What is a pandas DataFrame?')">DataFrame?</button>
-        <button class="qb" onclick="qa('How does a for loop work?')">for loop?</button>
-        <button class="qb" onclick="qa('What is a lambda function?')">lambda?</button>
-        <button class="qb" onclick="qa('What does pip freeze do?')">pip freeze?</button>
-      </div>
-      <div class="irow">
-        <textarea class="tinput" id="TI" placeholder="Ask your Python question…"
-          onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();sendQ()}"
-          oninput="this.style.height='34px';this.style.height=Math.min(this.scrollHeight,70)+'px'"></textarea>
-        <button class="tsend" id="TS" onclick="sendQ()">➤</button>
-      </div>
+<div class="mkt-bar">
+  <div class="mkt-item" id="mkt-spx">__SPX__</div>
+  <div class="mkt-sep">|</div>
+  <div class="mkt-item" id="mkt-ndx">__NDX__</div>
+  <div class="mkt-sep">|</div>
+  <div class="mkt-item" id="mkt-rut">__RUT__</div>
+  <div class="mkt-sep">|</div>
+  <div class="mkt-item" id="mkt-vix">__VIX__</div>
+  <div class="mkt-sep">|</div>
+  <div class="mkt-item mkt-stance" id="mkt-stance">__STANCE__</div>
+</div>
+<div class="wa-banner" id="wa-banner">
+  <span>&#9888;</span>
+  <span id="wa-banner-text">0 alerts</span>
+  <button class="wa-banner-btn" onclick="showAlerts()">View</button>
+</div>
+<div class="layout">
+  <div class="left-panel">
+    <div class="panel-title">Select Tickers</div>
+    <div class="field-group">
+      <label class="field-label">Watchlist</label>
+      <select id="wsel">
+        <option value="">— Select —</option>
+        __WATCHLIST_OPTIONS__
+      </select>
+    </div>
+    <div class="field-group">
+      <label class="field-label">Others</label>
+      <input type="text" id="extra" placeholder="e.g. CRDO, AMD">
+      <div class="field-hint">Comma or space separated</div>
+    </div>
+    <button class="btn" id="abtn" onclick="doAnalyse()">Analyse &rarr;</button>
+    <button class="btn-mkt" id="mktbtn" onclick="refreshMarket()">&#8635; Market Check</button>
+    <button class="btn-mkt" id="discbtn" onclick="showDiscovery()" style="margin-top:6px;border-color:var(--gold);color:var(--gold);">&#9741; Discovery</button>
+    <button class="btn-mkt" id="alertsbtn" onclick="showAlerts()" style="margin-top:6px;border-color:var(--gold);color:var(--gold);">&#9888; Alerts<span class="wa-badge" id="wa-badge" style="display:none;">0</span></button>
+    <div class="divider"></div>
+    <div class="prog-wrap" id="pw">
+      <div class="prog-label" id="pl">Analysing...</div>
+      <div class="prog-track"><div class="prog-fill" id="pf"></div></div>
+    </div>
+    <div class="freshness">
+      <div style="font-size:10px;color:var(--text-dim);font-weight:600;text-transform:uppercase;letter-spacing:.8px;">Data Freshness</div>
+      <div class="fi"><div class="fd" style="background:#2ecc71"></div>Price &mdash; always live</div>
+      <div class="fi"><div class="fd" style="background:#3498db"></div>Fundamentals &mdash; 24 hrs</div>
+      <div class="fi"><div class="fd" style="background:#9b59b6"></div>Valuation &mdash; 24 hrs</div>
+      <div class="fi"><div class="fd" style="background:#e67e22"></div>Intelligence &mdash; 4 hrs</div>
     </div>
   </div>
+  <div class="right-panel" id="right-panel">
+    
+    <div class="disc-panel" id="disc-panel">
+      <div class="disc-header">
+        <div style="font-size:13px;font-weight:700;color:var(--text);">&#9741; Daily Ticker Discovery</div>
+        <div class="disc-scan-info" id="disc-scan-info">Loading...</div>
+      </div>
+      <div class="disc-warning">&#9888; <b>Caution &mdash; IV Rank:</b> Not available in Discovery. Always verify IV Rank on IBKR TWS live options chain before executing any trade.</div>
+      <div style="background:var(--card-bg);border:1px solid var(--card-border);border-radius:8px;padding:12px 16px;margin-bottom:14px;font-size:10px;color:var(--text-muted);line-height:1.8;">
+        <div style="font-weight:700;color:var(--gold);margin-bottom:6px;font-size:11px;">DISCOVERY CRITERIA</div>
+        <div>&#9679; <b>HV30</b> &gt;25% (elevated volatility proxy) &nbsp;&#9679; <b>D/E Ratio</b> &lt;0.5 &nbsp;&#9679; <b>FCF</b> Positive &nbsp;&#9679; <b>EPS</b> Positive trailing EPS + profitable in 3 of last 4 years &nbsp;&#9679; <b>Earnings date</b> Not within 45 days</div>
+        <div>&#9679; <b>Est. Premium</b> &gt;1% of strike &nbsp;&#9679; <b>DTE</b> 30&ndash;45 days &nbsp;&#9679; <b>Delta</b> &minus;0.15 to &minus;0.20 &nbsp;&#9679; <b>Price</b> $10&ndash;$500 &nbsp;&#9679; <b>Volume</b> &gt;500k/day</div>
+        <div style="margin-top:6px;color:var(--text-dim);">
+          <b>Data sources:</b> Universe &mdash; Wikipedia S&amp;P 500 + NASDAQ 100 (516 tickers, free) &nbsp;|&nbsp;
+          Fundamentals &mdash; Yahoo Finance via yfinance (free) &nbsp;|&nbsp;
+          IV Rank &mdash; Price-position proxy + HV30 (free) &nbsp;|&nbsp;
+          Output &mdash; Top 3 per GICS sector
+        </div>
+      </div>
+      <div class="disc-sector-btns" id="disc-sector-btns"></div>
+      <div class="disc-run-bar">
+        <button class="disc-run-btn" id="disc-run-btn" onclick="runDiscoveryScan()">&#9654; Full Scan (all sectors ~20min)</button>
+        <div class="disc-status" id="disc-run-status"></div>
+      </div>
+      <div id="disc-results"></div>
+    </div>
+    <div class="wa-panel" id="wa-panel">
+      <div class="wa-header">
+        <div class="wa-title">&#9888; Alerts</div>
+        <button class="wa-refresh-btn" id="wa-refresh-btn" onclick="runAlertsScan()">Refresh</button>
+        <span class="wa-cache-note" id="wa-cache-note"></span>
+      </div>
+      <div class="disc-warning">&#9888; Alerts use Yahoo Finance proxy data — IB Gateway live connection (T306202) not yet active. Always verify on IBKR TWS before acting on any alert below.</div>
+      <div class="wa-section">
+        <div class="wa-section-title">Roll Triggers (21 DTE rule / strike drift)</div>
+        <div id="wa-roll-list"></div>
+      </div>
+      <div class="wa-section">
+        <div class="wa-section-title">Profit Targets (50% rule)</div>
+        <div id="wa-profit-list"></div>
+      </div>
+      <div class="wa-section">
+        <div class="wa-section-title">New Wheel Candidates</div>
+        <div id="wa-candidate-list"></div>
+      </div>
+    </div>
+    <div class="empty-state" id="empty-state">
+      <div class="icon">&#129504;</div>
+      <p>Select a ticker and click Analyse</p>
+      <p style="font-size:11px;margin-top:4px;">Results appear here</p>
+    </div>
+    <div id="results"></div>
+  </div>
 </div>
-
 <script>
-var cur=0,done=new Set(),topen=false,hist=[],busy=false,TOTAL=20;
-var LN=["Variables & Types","Operators","if / else","Loops","Functions","Lists","Dictionaries","Classes & OOP","File I/O","try / except","Pandas","pip & bash & sed","List comprehensions","Lambda functions","Decorators","Regex","datetime","os & pathlib","*args & **kwargs","Full roadmap"];
-
-function toggleTutor(){
-  topen=!topen;
-  document.getElementById('TP').classList.toggle('open',topen);
-  var b=document.getElementById('TBTN');
-  b.textContent=topen?'✕ Close tutor':'💬 Ask tutor';
-  b.className=topen?'tutor-btn on':'tutor-btn';
-  if(topen)setTimeout(function(){document.getElementById('TI').focus();},200);
+async function refreshMarket() {
+  var btn = document.getElementById('mktbtn');
+  btn.textContent = 'Refreshing...';
+  btn.disabled = true;
+  try {
+    var resp = await fetch('/market_context');
+    var d = await resp.json();
+    if (d.spx_price) {
+      function fmtChg(c) { return (c >= 0 ? '+' : '') + c.toFixed(2) + '%'; }
+      document.getElementById('mkt-spx').textContent = 'SPX $' + d.spx_price.toLocaleString() + ' ' + fmtChg(d.spx_chg||0) + ' ' + d.trend;
+      document.getElementById('mkt-ndx').textContent = 'NDX $' + d.ndx_price.toLocaleString() + ' ' + fmtChg(d.ndx_chg||0);
+      document.getElementById('mkt-rut').textContent = 'RUT $' + d.rut_price.toLocaleString() + ' ' + fmtChg(d.rut_chg||0);
+      document.getElementById('mkt-vix').textContent = 'VIX ' + d.vix + ' ' + d.vix_regime;
+      document.getElementById('mkt-stance').textContent = d.wheel_stance;
+    }
+  } catch(e) {}
+  btn.textContent = '↻ Market Check';
+  btn.disabled = false;
 }
 
-function qa(t){if(!topen)toggleTutor();setTimeout(function(){document.getElementById('TI').value=t;sendQ();},topen?0:250);}
-
-function addMsg(role,html){
-  var b=document.getElementById('MSG');
-  var d=document.createElement('div');
-  d.className='mrow'+(role==='u'?' u':'');
-  d.innerHTML='<div class="mav '+(role==='a'?'a':'u')+'">'+(role==='a'?'🐍':'🧑')+'</div><div class="mbub '+(role==='a'?'a':'u')+'">'+html+'</div>';
-  b.appendChild(d);b.scrollTop=b.scrollHeight;
+function getTickers() {
+  var sel = document.getElementById('wsel').value;
+  var raw = document.getElementById('extra').value;
+  var extras = raw.split(/[\s,]+/).map(function(t){ return t.trim().toUpperCase(); }).filter(function(t){ return t.length > 0; });
+  var all = sel ? [sel].concat(extras) : extras;
+  return all.filter(function(v, i, a){ return a.indexOf(v) === i; });
 }
-
-function showDots(){
-  var b=document.getElementById('MSG');
-  var d=document.createElement('div');d.id='DOTS';d.className='mrow';
-  d.innerHTML='<div class="mav a">🐍</div><div class="mbub a" style="display:flex;gap:5px;align-items:center;padding:10px">'
-    +'<span style="width:7px;height:7px;border-radius:50%;background:#8b90a8;display:inline-block;animation:pulse 1.2s infinite"></span>'
-    +'<span style="width:7px;height:7px;border-radius:50%;background:#8b90a8;display:inline-block;animation:pulse 1.2s .2s infinite"></span>'
-    +'<span style="width:7px;height:7px;border-radius:50%;background:#8b90a8;display:inline-block;animation:pulse 1.2s .4s infinite"></span>'
-    +'</div>';
-  b.appendChild(d);b.scrollTop=b.scrollHeight;
-}
-
-function fmt(t){
-  t=t.replace(/```[\w]*\n?([\s\S]*?)```/g,function(_,c){return '<pre>'+c.trim().replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')+'</pre>';});
-  t=t.replace(/`([^`]+)`/g,'<code>$1</code>');
-  t=t.replace(/\*\*(.+?)\*\*/g,'<strong>$1</strong>');
-  t=t.replace(/\n/g,'<br>');
-  return t;
-}
-
-async function sendQ(){
-  if(busy)return;
-  var inp=document.getElementById('TI');
-  var txt=inp.value.trim();if(!txt)return;
-  inp.value='';inp.style.height='34px';
-  addMsg('u',txt.replace(/</g,'&lt;').replace(/>/g,'&gt;'));
-  hist.push({role:'user',content:txt});
-  busy=true;document.getElementById('TS').disabled=true;
-  showDots();
-  var sys='You are a friendly Python tutor for Jayaraman, a beginner in Singapore who knows SQL, Data Science, ML/AI and uses Python for his IBKR stock options trading system (ibkr_report.py, trade_setup.py). Current lesson: '+LN[cur]+'. Keep answers under 150 words. Use short analogies. Relate to trading where natural. Use **bold** for key terms. Use code blocks for code examples.';
-  try{
-    var r=await fetch('https://python-tutor-proxy.ejraman.workers.dev',{method:'POST',headers:{'Content-Type':'application/json','anthropic-version':'2023-06-01'},body:JSON.stringify({model:'claude-sonnet-4-6',max_tokens:500,system:sys,messages:hist})});
-    var data=await r.json();
-    var el=document.getElementById('DOTS');if(el)el.remove();
-    var reply=data.content&&data.content[0]?data.content[0].text:'Something went wrong. Please try again.';
-    hist.push({role:'assistant',content:reply});
-    addMsg('a',fmt(reply));
-  }catch(e){
-    var el=document.getElementById('DOTS');if(el)el.remove();
-    addMsg('a','Network error — please try again.');
+async function doAnalyse() {
+  var tickers = getTickers();
+  if (!tickers.length) { alert('Select a watchlist ticker or type one in Others.'); return; }
+  var btn = document.getElementById('abtn');
+  btn.disabled = true; btn.textContent = 'Analysing...';
+  document.getElementById('empty-state').style.display = 'none';
+  document.getElementById('disc-panel').style.display = 'none';
+  document.getElementById('wa-panel').style.display = 'none';
+  document.getElementById('results').innerHTML = '';
+  document.getElementById('pw').style.display = 'block';
+  for (var i = 0; i < tickers.length; i++) {
+    var t = tickers[i];
+    document.getElementById('pf').style.width = Math.round(i/tickers.length*100) + '%';
+    document.getElementById('pl').textContent = t + ' (' + (i+1) + '/' + tickers.length + ')';
+    try {
+      var resp = await fetch('/analyse', { method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify({ticker: t}) });
+      var d = await resp.json();
+      document.getElementById('results').innerHTML += buildCard(d);
+    } catch(e) {
+      document.getElementById('results').innerHTML += '<div class="err">Error: ' + t + ' &mdash; ' + e + '</div>';
+    }
   }
-  busy=false;document.getElementById('TS').disabled=false;
-  document.getElementById('TI').focus();
+  document.getElementById('pf').style.width = '100%';
+  document.getElementById('pl').textContent = 'Done &mdash; ' + tickers.length + ' analysed';
+  btn.disabled = false; btn.textContent = 'Analyse';
 }
-
-function go(n){
-  cur=n;
-  document.querySelectorAll('.ni').forEach(function(el,i){el.classList.toggle('on',i===n);});
-  document.getElementById('CTX').textContent=LN[n];
-  render(n);
-  document.getElementById('MN').scrollTop=0;
+function vbadge(text) {
+  if (!text) return '';
+  var t = text.toUpperCase();
+  if (t.indexOf('SUITABLE') >= 0) return '<span class="badge bg">&#10003; Suitable</span>';
+  if (t.indexOf('BUY') >= 0) return '<span class="badge bg">&#10003; Buy</span>';
+  if (t.indexOf('CAUTION') >= 0) return '<span class="badge ba">&#9888; Caution</span>';
+  if (t.indexOf('AVOID') >= 0) return '<span class="badge br">&#10007; Avoid</span>';
+  if (t.indexOf('OVERVALUED') >= 0) return '<span class="badge br">&#8593; Overvalued</span>';
+  if (t.indexOf('FAIR') >= 0) return '<span class="badge bk">&#8212; Fair</span>';
+  return '<span class="badge bk">' + text.substring(0,20) + '</span>';
 }
-
-function markDone(n){
-  if(done.has(n))return;
-  done.add(n);
-  var k=document.getElementById('k'+n);if(k)k.textContent='✓';
-  document.querySelectorAll('.ni')[n].classList.add('done');
-  document.getElementById('PF').style.width=(done.size/TOTAL*100)+'%';
-  document.getElementById('PT').textContent=done.size+' / '+TOTAL;
+function extractWheelVerdict(text) {
+  if (!text) return '';
+  var m = text.match(/WHEEL STRATEGY VERDICT[^\n]*\n+\**\s*([A-Z]+)/i);
+  return m ? m[1] : '';
 }
-
-function chk(code,n){
-  var c=code.trim();
-  if(!c)return{ok:false,m:'Write some code first!'};
-  var checks=[
-    function(c){if(!c.includes('name')&&!c.includes('age'))return'Create variables called name and age';if(!c.includes('print'))return'Add a print() to show your variables';return null;},
-    function(c){if(!c.includes('*')&&!c.includes('+'))return'Use operators like *, +, - to calculate';if(!c.includes('print'))return'Add print() to show your result';return null;},
-    function(c){if(!c.includes('if '))return'Add an if statement';if(!c.includes('else')&&!c.includes('elif'))return'Add else or elif';if(!c.includes('    '))return'Indent 4 spaces inside the if block';return null;},
-    function(c){if(!c.includes('for ')&&!c.includes('while '))return'Use a for or while loop';if(!c.includes('print'))return'Add print() inside the loop';return null;},
-    function(c){if(!c.includes('def '))return'Define a function with: def my_function():';if(!c.includes('return'))return'Add a return statement inside the function';return null;},
-    function(c){if(!c.includes('['))return'Create a list using square brackets: [item1, item2]';if(!c.includes('append')&&!c.includes('for ')&&!c.includes('len('))return'Use append(), a for loop, or len() on your list';return null;},
-    function(c){if(!c.includes('{'))return'Create a dictionary using curly braces: {"key": "value"}';if(!c.includes('['))return'Access a value using: my_dict["key"]';return null;},
-    function(c){if(!c.includes('class '))return'Start with: class YourClassName:';if(!c.includes('__init__'))return'Add __init__(self, ...) inside the class';return null;},
-    function(c){if(!c.includes('open('))return"Use: with open('file.txt', 'w') as f:";if(!c.includes('write')&&!c.includes('read'))return'Use f.write() or f.read()';return null;},
-    function(c){if(!c.includes('try:'))return'Add a try: block';if(!c.includes('except'))return'Add an except block to catch errors';return null;},
-    function(c){if(!c.includes('pandas'))return'Start with: import pandas as pd';if(!c.includes('DataFrame'))return'Create: df = pd.DataFrame(data)';return null;},
-    function(c){return null;},
-    function(c){if(!c.includes('[')&&!c.includes('for'))return'Use list comprehension: [x for x in list]';return null;},
-    function(c){if(!c.includes('lambda'))return'Use the lambda keyword: lambda x: x * 2';return null;},
-    function(c){if(!c.includes('def ')&&!c.includes('@'))return'Define a decorator function using def';return null;},
-    function(c){if(!c.includes('import re'))return'Start with: import re';if(!c.includes('re.'))return'Use re.search(), re.findall(), or re.match()';return null;},
-    function(c){if(!c.includes('datetime'))return'Start with: from datetime import datetime';return null;},
-    function(c){if(!c.includes('import os')&&!c.includes('pathlib'))return'Start with: import os  or  from pathlib import Path';return null;},
-    function(c){if(!c.includes('*args')&&!c.includes('**kwargs'))return'Use *args or **kwargs in your function definition';return null;},
-    function(c){return null;}
-  ];
-  var msg=checks[n]?checks[n](c):null;
-  if(msg)return{ok:false,m:msg};
-  var successes=[
-    'Variables created! Text uses quotes, numbers do not, booleans are True or False.',
-    'Operators working! Python calculates just like a calculator.',
-    'Decision made! if/elif/else is how Python chooses what to run.',
-    'Loop working! The indented block repeats automatically.',
-    'Function defined and called! Write once, reuse many times.',
-    'List working! Lists are ordered and can hold any data type.',
-    'Dictionary working! Key-value pairs — like a lookup table.',
-    'Class built! This blueprint pattern is in every class inside your ibkr_report.py.',
-    'File I/O done! The with block auto-closes — same pattern ibkr_report.py uses.',
-    'Error handling done! Every file/API call in your IBKR system should be wrapped like this.',
-    'Pandas working! This is exactly how ibkr_report.py reads and processes your IBKR data.',
-    'pip and bash learned! These are the tools you use every day in your WSL terminal.',
-    'List comprehension working! One line instead of four — clean and Pythonic.',
-    'Lambda working! Useful for short one-line functions passed into other functions.',
-    'Decorator working! Used extensively in Flask and pandas for extending functions.',
-    'Regex working! Powerful for parsing IBKR report text and extracting trade data.',
-    'datetime working! Essential for your IBKR reports — filtering by date, calculating DTE.',
-    'os/pathlib working! Used in ibkr_report.py to find and open files automatically.',
-    '*args and **kwargs working! Makes your functions flexible and professional.',
-    'Roadmap complete! You have covered the full Python curriculum.'
-  ];
-  return{ok:true,m:successes[n]||'Done!'};
+function fmt(text) {
+  if (!text) return '';
+  // Convert markdown tables BEFORE HTML escaping
+  var lines = text.split('\n');
+  var result = [];
+  var inTable = false;
+  for (var i = 0; i < lines.length; i++) {
+    var line = lines[i];
+    if (line.trim().startsWith('|') && line.trim().endsWith('|')) {
+      if (!inTable) {
+        result.push('<table style="border-collapse:collapse;margin:8px 0;font-size:11px;">');
+        inTable = true;
+      }
+      if (line.replace(/[|\-\s]/g,'').length === 0) continue; // skip separator row
+      var cells = line.split('|').filter(function(c){ return c.trim() !== ''; });
+      var isHeader = (i === 0 || !lines[i-1] || !lines[i-1].trim().startsWith('|'));
+      var tag = isHeader ? 'th' : 'td';
+      var style = tag === 'th' ? 'background:#1b2d42;color:#c9a84c;padding:4px 12px;text-align:left;border:1px solid #1e3a52;' : 'padding:4px 12px;border:1px solid #1e3a52;color:#e8edf2;';
+      result.push('<tr>' + cells.map(function(c){ return '<'+tag+' style="'+style+'">'+c.trim()+'</'+tag+'>'; }).join('') + '</tr>');
+    } else {
+      if (inTable) { result.push('</table>'); inTable = false; }
+      result.push(line.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'));
+    }
+  }
+  if (inTable) result.push('</table>');
+  text = result.join('\n');
+  text = text.replace(/^## (.+)$/gm, '<h3>$1</h3>');
+  text = text.replace(/^# (.+)$/gm, '<h3>$1</h3>');
+  text = text.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
+  text = text.replace(/^[-*] (.+)$/gm, '<li>$1</li>');
+  text = text.replace(/\n/g, '<br>');
+  return text;
 }
-
-var pyodide=null,pyReady=false,pyQueue=null;
-
-function initPyodide(){
-  var s=document.createElement('script');
-  s.src='https://cdn.jsdelivr.net/pyodide/v0.27.5/full/pyodide.js';
-  s.onload=function(){
-    loadPyodide().then(function(py){
-      pyodide=py;
-      pyodide.setStdout({batched:function(t){appendPyOut(t+'\n');}});
-      pyodide.setStderr({batched:function(t){appendPyOut('[err] '+t+'\n',true);}});
-      pyReady=true;
-      var b=document.getElementById('PYST');
-      if(b){b.className='py-status ready';b.textContent='✓ Python ready';}
-      if(pyQueue){runPy(pyQueue.code,pyQueue.n);pyQueue=null;}
-    }).catch(function(){
-      var b=document.getElementById('PYST');
-      if(b){b.className='py-status fail';b.textContent='✗ Python failed';}
+function buildCard(d) {
+  if (d.error) return '<div class="err">&#10060; ' + (d.symbol||'?') + ': ' + d.error + '</div>';
+  var fd = d.fund_data || {}, val = d.val || {}, price = d.price || 0;
+  var comp = val.composite || 0;
+  var margin = comp ? Math.abs((comp-price)/comp*100).toFixed(0) : 0;
+  var dir = price > comp ? 'above' : 'below';
+  var dc = price > comp ? 'var(--red)' : 'var(--green)';
+  var di = price > comp ? '&#8593;' : '&#8595;';
+  var roic = fd.roic ? (fd.roic*100).toFixed(1)+'%' : '&mdash;';
+  var wacc = fd.wacc ? (fd.wacc*100).toFixed(1)+'%' : '&mdash;';
+  var fails = (d.fund_failures||[]).map(function(f){ return '<div class="alert af">&#10060; '+f+'</div>'; }).join('');
+  var cauts = (d.fund_cautions||[]).map(function(c){ return '<div class="alert aw">&#9888; '+c+'</div>'; }).join('');
+  var ew = (d.earnings_days !== null && d.earnings_days <= 45) ? '<div class="alert ae">&#128197; Earnings in '+d.earnings_days+' days &mdash; elevated IV, avoid selling puts</div>' : '';
+  var srcs = (d.sources||[]).map(function(s,i){ return '<a class="src-link" href="'+s.url+'" target="_blank">[' + (i+1) + '] ' + s.source + ' &middot; ' + s.date + '</a>'; }).join('');
+  var h = '<div class="rcard">';
+  h += '<div class="rcard-hdr"><div>';
+  h += '<div class="tkr">'+d.symbol+'</div>';
+  h += '<div class="tprice">$'+price.toFixed(2)+'</div>';
+  h += '<div class="tearn">&#128197; Earnings: '+(d.earnings_days !== null ? d.earnings_days+' days away' : 'Not found')+'</div>';
+  h += '</div><div class="badges">'+vbadge(val.verdict||'')+vbadge(extractWheelVerdict(d.analysis))+'</div></div>';
+  if (fails||cauts||ew) h += '<div class="rsec">'+ew+fails+cauts+'</div>';
+  // Verdict Engine banner
+  var vd = d.verdict || {};
+  if (vd.verdict) {
+    var vCol = vd.verdict_color === 'green' ? '#4CAF50' : vd.verdict_color === 'red' ? '#e74c3c' : '#f39c12';
+    var vIcon = vd.verdict_color === 'green' ? '&#10003;' : vd.verdict_color === 'red' ? '&#10007;' : '&#9888;';
+    h += '<div style="background:'+vCol+'18;border:1px solid '+vCol+';border-radius:6px;padding:10px 14px;margin-bottom:10px;">';
+    h += '<div style="display:flex;justify-content:space-between;align-items:center;">';
+    h += '<span style="font-size:14px;font-weight:bold;color:'+vCol+';">'+vIcon+' '+vd.verdict+'</span>';
+    h += '<span style="font-size:10px;color:#8fa3b8;">'+vd.pass_count+'/'+Object.keys(vd.checks||{}).length+' checks passed</span>';
+    h += '</div>';
+    h += '<div style="font-size:11px;color:#e8edf2;margin-top:4px;">'+vd.verdict_reason+'</div>';
+    h += '<div style="display:flex;flex-wrap:wrap;gap:6px;margin-top:8px;">';
+    var checks = vd.checks || {};
+    var reasons = vd.reasons || {};
+    Object.keys(checks).forEach(function(k) {
+      var st = checks[k];
+      var sc = st === 'pass' ? '#4CAF50' : st === 'fail' ? '#e74c3c' : '#f39c12';
+      var si = st === 'pass' ? '&#10003;' : st === 'fail' ? '&#10007;' : '&#9888;';
+      var secMap = {'Business Trend':'sec-trend','Fundamentals':'sec-fundamentals','IV Rank':'sec-tradesetup','Technicals':'sec-technicals','Valuation':'sec-valuation'};
+      var secId = (secMap[k] || '') + '-' + d.symbol;
+      h += '<a href="#'+secId+'" style="text-decoration:none;"><span title="'+reasons[k]+'" style="cursor:pointer;font-size:10px;padding:2px 8px;border-radius:10px;border:1px solid '+sc+';color:'+sc+';">'+si+' '+k+'</span></a>';
     });
-  };
-  document.head.appendChild(s);
-}
-
-var _outEl=null,_outErr=false;
-function appendPyOut(text,isErr){
-  if(!_outEl)return;
-  if(isErr)_outErr=true;
-  _outEl.classList.toggle('err',_outErr);
-  _outEl.classList.remove('ph');
-  _outEl.textContent+=text;
-  _outEl.scrollTop=_outEl.scrollHeight;
-}
-
-function runPy(code,n){
-  if(!pyReady){pyQueue={code:code,n:n};return;}
-  var btn=document.getElementById('RBTN');
-  if(btn){btn.disabled=true;btn.innerHTML='⏳ Running…';}
-  _outEl=document.getElementById('ROUT');
-  _outErr=false;
-  if(_outEl){_outEl.className='out-real ph';_outEl.textContent='';}
-  pyodide.runPythonAsync(code).then(function(){
-    if(_outEl&&!_outEl.textContent.trim()){_outEl.classList.add('ph');_outEl.textContent='(no output)';}
-    else if(_outEl){_outEl.classList.remove('ph');}
-    if(btn){btn.disabled=false;btn.innerHTML='▶ Run';}
-    // Mark done if code is non-trivial
-    var r=chk(code,n);
-    if(r.ok)markDone(n);
-    var dv=document.getElementById('RDONE');
-    if(dv)dv.innerHTML=r.ok?'<span style="color:#4ade80;font-size:12px">✓ '+r.m+'</span>':'<span style="color:#60a5fa;font-size:12px">'+r.m+'</span>';
-  }).catch(function(e){
-    if(_outEl){_outEl.className='out-real err';_outEl.textContent=e.message||String(e);}
-    if(btn){btn.disabled=false;btn.innerHTML='▶ Run';}
-  });
-}
-
-function resetEx(n){
-  var ed=document.getElementById('EX');
-  if(ed){ed.value='';ed.focus();}
-  var o=document.getElementById('ROUT');
-  if(o){o.className='out-real ph';o.textContent='Run your code to see output here…';}
-  var dv=document.getElementById('RDONE');if(dv)dv.innerHTML='';
-}
-
-function showAnswer(n){
-  var ed=document.getElementById('EX');
-  if(ed){ed.value=lessons[n].ph;ed.focus();}
-}
-
-function runEx(n){
-  var code=document.getElementById('EX').value;
-  runPy(code,n);
-}
-
-function toggleHint(){var h=document.getElementById('HB');h.style.display=h.style.display==='block'?'none':'block';}
-
-function dts(){return '<div class="dots"><div class="dot" style="background:#ff5f57"></div><div class="dot" style="background:#febc2e"></div><div class="dot" style="background:#28c840"></div></div>';}
-function codeBlock(fn,code){return '<div class="cb"><div class="cbh">'+dts()+fn+'</div><pre class="pre">'+code+'</pre></div>';}
-function ex(n,prompt,hint,ph){
-  var isDone=done.has(n);
-  return '<div class="ex">'
-    +'<div class="exh">✏️ Try it yourself</div>'
-    +'<div class="exp">'+prompt+'</div>'
-    +'<textarea class="cin" id="EX" spellcheck="false" placeholder="Write your Python code here…"></textarea>'
-    +'<div class="run-row-live">'
-      +'<span class="run-label">▸ Live Python</span>'
-      +'<button class="breset" onclick="resetEx('+n+')" title="Clear editor">↺ Clear</button>'
-      +'<button class="bhint" onclick="toggleHint()">💡 Hint</button>'
-      +'<button class="breset" onclick="showAnswer('+n+')" style="color:#fb923c;border-color:rgba(251,146,60,.4)">👁 Answer</button>'
-      +'<button class="brun-live" id="RBTN" onclick="runEx('+n+')">▶ Run</button>'
-    +'</div>'
-    +'<div class="out-real ph" id="ROUT">Run your code to see output here…</div>'
-    +'<div class="hbox" id="HB">'+hint+'</div>'
-    +'<div id="RDONE">'+(isDone?'<span style="color:#4ade80;font-size:12px">✓ Already completed</span>':'')+'</div>'
-    +'</div>';
-}
-function navRow(n){var prev=n>0?'<button class="bnav" onclick="go('+(n-1)+')">← Previous</button>':'<button class="bnav" disabled>← Previous</button>';var next=n<19?'<button class="bnav p" onclick="go('+(n+1)+')">Next →</button>':'<button class="bnav p" onclick="go(0)">↺ Start over</button>';return '<div class="nr">'+prev+next+'</div>';}
-
-var lessons=[
-{b:'Lesson 01 · Layer 1',t:'Variables and data types',i:'A variable is a labelled box. You put data in, give it a name, and use that name whenever you need the data. This is the foundation of everything.',
- body:'<div class="box"><div class="bh">The analogy</div><p style="color:#e8eaf0;font-size:13px;margin-bottom:8px">Your phone contacts: "Mani" is the label (variable name). The phone number stored under it is the value.</p><div class="analogy">name = "Jayaraman" — create a box, label it name, put the text Jayaraman inside.</div></div>CODEBLOCK_0<table class="tbl"><thead><tr><th>Type</th><th>Example</th><th>What it holds</th></tr></thead><tbody><tr><td>str</td><td><code>"Hello"</code></td><td>Text — always in quotes</td></tr><tr><td>int</td><td><code>45</code></td><td>Whole number</td></tr><tr><td>float</td><td><code>98.5</code></td><td>Decimal number</td></tr><tr><td>bool</td><td><code>True</code></td><td>True or False only</td></tr></tbody></table>',
- code:['variables.py','name     = "Jayaraman"   # text — string\nage      = 45            # whole number — integer\nscore    = 98.5          # decimal — float\nis_coder = True          # yes or no — boolean\n\nprint(name)\nprint(f"I am {name}, age {age}")'],
- prompt:'Create 3 variables: your <code>name</code>, your <code>age</code>, and <code>is_employed</code> (True or False). Print all three using an f-string.',
- hint:'name = "Raman"  |  age = 30  |  is_employed = True  |  print(f"My name is {name}, age {age}")',
- ph:'name = \nage = \nis_employed = \nprint(f"My name is {name}, age {age}, employed: {is_employed}")'},
-
-{b:'Lesson 02 · Layer 1',t:'Operators — making Python calculate',i:'Operators are symbols that do things — add numbers, compare values. Python works just like a calculator, but with much more power.',
- body:'CODEBLOCK_0<div class="warn"><strong>= vs ==</strong><br>= assigns a value to a variable. x = 5 means "store 5 in x"<br>== checks if two things are equal. x == 5 returns True or False</div>',
- code:['operators.py','a, b = 10, 3\n\nprint(a + b)    # 13  addition\nprint(a - b)    # 7   subtraction\nprint(a * b)    # 30  multiplication\nprint(a / b)    # 3.33 division\nprint(a // b)   # 3   floor division (whole number)\nprint(a % b)    # 1   remainder\nprint(a ** b)   # 1000 power (10 to the 3)\n\nprint(a > b)    # True\nprint(a == b)   # False (== not =)\nprint(a != b)   # True'],
- prompt:'You bought 100 shares at $120. Current price is $135. Calculate and print: total cost, current value, and profit.',
- hint:'total_cost = 100 * 120  |  current_value = 100 * 135  |  profit = current_value - total_cost',
- ph:'shares = 100\nbuy_price = 120\ncurrent_price = 135\n\ntotal_cost = shares * buy_price\ncurrent_value = shares * current_price\nprofit = current_value - total_cost\nprint(f"Profit: ${profit}")'},
-
-{b:'Lesson 03 · Layer 1',t:'if / elif / else — making decisions',i:'Real programs make decisions. If IV rank is high, sell a put. Otherwise wait. Python uses if/elif/else to do exactly this.',
- body:'<div class="box"><div class="bh">The key rule — indentation</div><p style="color:#e8eaf0;font-size:13px;margin-bottom:8px">Python uses 4 spaces to know what belongs inside an if block. This is the number one source of beginner errors.</p><div class="analogy">Like bullet points under a heading — they must be pushed in. No indent = no connection to the if.</div></div>CODEBLOCK_0',
- code:['conditions.py','iv_rank = 65\n\nif iv_rank > 50:\n    print("Good IV — sell a put")   # 4 spaces!\nelif iv_rank >= 30:\n    print("Moderate — wait")\nelse:\n    print("Low IV — avoid")\n\n# Combining conditions with and / or\nage = 25\nhas_id = True\nif age >= 21 and has_id:\n    print("Access granted")'],
- prompt:'Set a variable <code>score</code> to any number. If 90 or above print "Grade A". If 75 to 89 print "Grade B". Otherwise print "Grade C".',
- hint:'if score >= 90: then elif score >= 75: then else: — 4 spaces before each print!',
- ph:'score = 78\n\nif score >= 90:\n    print("Grade A")\nelif score >= 75:\n    print("Grade B")\nelse:\n    print("Grade C")'},
-
-{b:'Lesson 04 · Layer 1',t:'Loops — doing things repeatedly',i:'Computers excel at repetition. A loop runs the same code many times without you writing it many times. Two types: for loops and while loops.',
- body:'CODEBLOCK_0',
- code:['loops.py','# for loop — fixed number of times\nfor i in range(5):          # i goes 0,1,2,3,4\n    print(f"Count: {i}")\n\n# loop through a list\ntickers = ["NOW", "LULU", "MU"]\nfor ticker in tickers:\n    print(f"Checking: {ticker}")\n\n# while loop — until condition is false\ncount = 3\nwhile count > 0:\n    print(f"T-minus {count}")\n    count -= 1\nprint("Done!")\n\n# useful: len() counts items\nprint(f"Total: {len(tickers)} stocks")'],
- prompt:'Create a list <code>portfolio</code> with 3 stock names. Use a for loop to print each one. Then print the total using <code>len()</code>.',
- hint:'for stock in portfolio:  then  print(f"Position: {stock}")  then after the loop  print(f"Total: {len(portfolio)}")',
- ph:'portfolio = ["NOW", "LULU", "MU"]\n\nfor stock in portfolio:\n    print(f"Position: {stock}")\n\nprint(f"Total positions: {len(portfolio)}")'},
-
-{b:'Lesson 05 · Layer 1',t:'Functions — reusable blocks of code',i:'A function is code you write once and reuse many times. It is like a blender — you define how it works once, then use it whenever you need it.',
- body:'<div class="box"><div class="bh">The analogy</div><p style="color:#e8eaf0;font-size:13px;margin-bottom:8px">A function is a vending machine. You insert inputs (press B3), it processes internally, and gives back an output (your snack). You do not need to know how it works inside.</p><div class="analogy">def = define. Parameters = inputs. return = output.</div></div>CODEBLOCK_0',
- code:['functions.py','# Define a function\ndef greet(name):\n    print(f"Hello, {name}!")\n\ngreet("Jayaraman")   # Hello, Jayaraman!\ngreet("Mani")        # Hello, Mani!\n\n# Function with return value\ndef calculate_profit(buy, sell, shares):\n    profit = (sell - buy) * shares\n    return profit\n\nresult = calculate_profit(120, 135, 100)\nprint(f"Profit: ${result}")   # Profit: $1500\n\n# Default parameter\ndef power(base, exp=2):    # default: square\n    return base ** exp\n\nprint(power(5))       # 25\nprint(power(5, 3))    # 125'],
- prompt:'Write a function <code>check_iv(iv_rank)</code> that returns "Sell" if iv_rank is above 50, and "Wait" otherwise. Call it twice with different values and print the results.',
- hint:'def check_iv(iv_rank):  then  if iv_rank > 50: return "Sell"  else: return "Wait"',
- ph:'def check_iv(iv_rank):\n    if iv_rank > 50:\n        return "Sell"\n    else:\n        return "Wait"\n\nprint(check_iv(65))\nprint(check_iv(30))'},
-
-{b:'Lesson 06 · Layer 1',t:'Lists — ordered collections',i:'A list stores many values in one variable, in order. It is the most used data structure in Python — your portfolio of stocks, your list of tickers, all of it.',
- body:'CODEBLOCK_0',
- code:['lists.py','stocks = ["NOW", "LULU", "MU", "SPCX"]\n\nprint(stocks[0])      # "NOW"  — index starts at 0!\nprint(stocks[-1])     # "SPCX" — -1 is the last item\nprint(len(stocks))    # 4\n\n# Add and remove\nstocks.append("QQQM")    # add to end\nstocks.remove("MU")      # remove by value\n\n# Slice — get part of a list\nprint(stocks[0:2])    # first two items\n\n# Loop through\nfor s in stocks:\n    print(f"Holding: {s}")\n\n# Sort\nstocks.sort()\nprint(stocks)'],
- prompt:'Create a list <code>watchlist</code> with 4 stock tickers. Append one more. Remove one. Print the final list and its length.',
- hint:'watchlist.append("NEW")  |  watchlist.remove("OLD")  |  print(watchlist)  |  print(len(watchlist))',
- ph:'watchlist = ["NOW", "LULU", "MU", "SPCX"]\nwatchlist.append("QQQM")\nwatchlist.remove("MU")\nprint(watchlist)\nprint(len(watchlist))'},
-
-{b:'Lesson 07 · Layer 1',t:'Dictionaries — key-value pairs',i:'A dictionary stores data as key:value pairs — like a real dictionary where you look up a word (key) to get its meaning (value). Perfect for storing structured data.',
- body:'<div class="box"><div class="bh">The analogy</div><div class="analogy">A dictionary is like a filing cabinet. Each drawer has a label (key). Inside is the document (value). You find what you need by the label, not by counting drawers.</div></div>CODEBLOCK_0',
- code:['dicts.py','position = {\n    "ticker"   : "NOW",\n    "shares"   : 100,\n    "avg_cost" : 120.09,\n    "current"  : 135.00\n}\n\nprint(position["ticker"])     # NOW\nprint(position["avg_cost"])   # 120.09\n\n# Add or update a key\nposition["profit"] = (position["current"] - position["avg_cost"]) * position["shares"]\nprint(f"P&L: ${position[\'profit\']:.2f}")\n\n# Loop through\nfor key, value in position.items():\n    print(f"{key}: {value}")\n\n# List of dictionaries — real world use\nportfolio = [\n    {"ticker": "NOW",  "shares": 100},\n    {"ticker": "LULU", "shares": 100}\n]'],
- prompt:'Create a dictionary for yourself with keys: <code>name</code>, <code>city</code>, <code>skills</code> (a list). Print your name and city. Loop through your skills.',
- hint:'me = {"name": "Raman", "city": "Singapore", "skills": ["Python", "SQL"]}  then  for skill in me["skills"]: print(skill)',
- ph:'me = {\n    "name"  : "Jayaraman",\n    "city"  : "Singapore",\n    "skills": ["Python", "SQL", "AI"]\n}\n\nprint(me["name"])\nprint(me["city"])\nfor skill in me["skills"]:\n    print(f"Skill: {skill}")'},
-
-{b:'Lesson 08 · Layer 2',t:'Classes and OOP — building your own types',i:'A class is a blueprint. Variables hold data, functions perform actions. A class bundles both into one reusable object — how every Python library (pandas, Flask, yfinance) is built.',
- body:'<div class="box"><div class="bh">The blueprint analogy</div><p style="color:#e8eaf0;font-size:13px;margin-bottom:8px">A class is like a house blueprint. Each instance is an actual house built from it. Changing one house does not affect others.</p><div class="analogy">class StockPosition is the blueprint. StockPosition("NOW", 100) is one actual house.</div></div><div class="rl"><span style="font-size:16px">🏗️</span><div><div class="rt">__init__ — the constructor</div><div class="rd">Runs when you create an object. Always takes self as the first parameter.</div></div></div><div class="rl"><span style="font-size:16px">🪞</span><div><div class="rt">self — this specific object</div><div class="rd">self.name means the name belonging to THIS object. Python passes it automatically — you write it but never provide it when calling.</div></div></div>CODEBLOCK_0',
- code:['stock_position.py','class StockPosition:\n\n    def __init__(self, ticker, shares, avg_cost):\n        self.ticker   = ticker\n        self.shares   = shares\n        self.avg_cost = avg_cost\n\n    def total_cost(self):\n        return self.shares * self.avg_cost\n\n    def profit_loss(self, current_price):\n        return (self.shares * current_price) - self.total_cost()\n\n    def summary(self, current_price):\n        pl = self.profit_loss(current_price)\n        print(f"{self.ticker}: {self.shares} shares | P&L ${pl:.2f}")\n\nnow  = StockPosition("NOW", 100, 120.09)\nlulu = StockPosition("LULU", 100, 192.50)\nnow.summary(135.00)\nlulu.summary(178.00)'],
- prompt:'Create a class <code>OptionTrade</code> with ticker, premium, contracts. Add method <code>total_income</code> returning premium x contracts x 100. Create an object and print the result.',
- hint:'def total_income(self): return self.premium * self.contracts * 100',
- ph:'class OptionTrade:\n    def __init__(self, ticker, premium, contracts):\n        self.ticker    = ticker\n        self.premium   = premium\n        self.contracts = contracts\n\n    def total_income(self):\n        return self.premium * self.contracts * 100\n\ntrade = OptionTrade("NOW", 2.50, 1)\nprint(trade.total_income())'},
-
-{b:'Lesson 09 · Layer 2',t:'File I/O — reading and writing files',i:'Your IBKR reports, CSV exports, config files — all real Python programs read and write files. File I/O is how Python talks to your disk.',
- body:'<div class="box"><div class="bh">The analogy</div><div class="analogy">with open(...) is a polite librarian — it opens and closes the file automatically, even if your code crashes midway.</div></div>CODEBLOCK_0<table class="tbl"><thead><tr><th>Mode</th><th>What it does</th><th>If file exists</th></tr></thead><tbody><tr><td><code>"r"</code></td><td>Read</td><td>Must exist or error</td></tr><tr><td><code>"w"</code></td><td>Write</td><td>Wipes and rewrites</td></tr><tr><td><code>"a"</code></td><td>Append</td><td>Adds to end</td></tr></tbody></table>',
- code:['file_io.py','with open("trades.txt", "w") as f:   # write\n    f.write("NOW, 100 shares\\n")\n    f.write("LULU, 100 shares\\n")\n\nwith open("trades.txt", "r") as f:   # read\n    content = f.read()\n    print(content)\n\nwith open("trades.txt", "r") as f:   # line by line\n    for line in f:\n        print(line.strip())\n\nwith open("trades.txt", "a") as f:   # append\n    f.write("MU, 100 shares\\n")'],
- prompt:'Create a list of 3 tickers. Write each to <code>watchlist.txt</code>. Then read and print the file.',
- hint:'with open("watchlist.txt", "w") as f: then loop f.write(ticker + newline). Second: with open(..., "r") as f: print(f.read())',
- ph:'tickers = ["NOW", "LULU", "MU"]\n\nwith open("watchlist.txt", "w") as f:\n    for ticker in tickers:\n        f.write(ticker + "\\n")\n\nwith open("watchlist.txt", "r") as f:\n    print(f.read())'},
-
-{b:'Lesson 10 · Layer 2',t:'try / except — handling errors gracefully',i:'Every program fails sometimes — a file is missing, a number is invalid, a network is down. Without error handling your program crashes. With it, you control what happens next.',
- body:'<div class="box"><div class="bh">The seatbelt analogy</div><p style="color:#e8eaf0;font-size:13px;margin-bottom:8px">You drive carefully but still wear a seatbelt. try/except is that seatbelt. If something breaks, except catches it and your program continues.</p><div class="analogy">Without try/except: one bad IBKR file = whole report crashes. With it: one bad file is skipped, the rest still run.</div></div>CODEBLOCK_0<div class="tip"><strong>Common error types:</strong> FileNotFoundError · ValueError · KeyError · IndexError · TypeError · Exception (catch-all)</div>',
- code:['error_handling.py','try:\n    result = 10 / 0\nexcept ZeroDivisionError:\n    print("Cannot divide by zero!")\n\ntry:\n    number = int("abc")\nexcept ValueError as e:\n    print(f"Bad value: {e}")\n\ntry:\n    with open("missing.csv") as f:\n        data = f.read()\nexcept FileNotFoundError:\n    print("File not found — download from IBKR first")\nfinally:\n    print("Check complete")   # always runs\n\n# Safe function pattern\ndef safe_divide(a, b):\n    try:\n        return a / b\n    except ZeroDivisionError:\n        return 0'],
- prompt:'Write a function <code>safe_open(filename)</code> that opens and prints a file. If the file does not exist it prints "File not found: filename" instead of crashing. Call it twice.',
- hint:'try: with open(filename) as f: print(f.read())  |  except FileNotFoundError: print("File not found: " + filename)',
- ph:'def safe_open(filename):\n    try:\n        with open(filename, "r") as f:\n            print(f.read())\n    except FileNotFoundError:\n        print("File not found: " + filename)\n\nsafe_open("trades.txt")\nsafe_open("ghost.txt")'},
-
-{b:'Lesson 11 · Layer 2',t:"Pandas — Python's spreadsheet",i:'Pandas is the most important data library in Python. Your ibkr_report.py lives and breathes pandas — read, filter, calculate, and export any tabular data.',
- body:'<div class="box"><div class="bh">Two core concepts</div><p style="color:#e8eaf0;font-size:13px;margin-bottom:6px"><strong>DataFrame</strong> — a table with rows and columns, like Excel. Used 90% of the time.</p><p style="color:#e8eaf0;font-size:13px"><strong>Series</strong> — one column of data. A DataFrame is a collection of Series.</p><div class="analogy">df["Ticker"] gives you the Ticker column as a Series — one column pulled from the table.</div></div>CODEBLOCK_0<table class="tbl"><thead><tr><th>Task</th><th>Code</th></tr></thead><tbody><tr><td>Read CSV</td><td><code>pd.read_csv("file.csv")</code></td></tr><tr><td>Filter rows</td><td><code>df[df["Col"] > 0]</code></td></tr><tr><td>Add column</td><td><code>df["New"] = df["A"] * df["B"]</code></td></tr><tr><td>Sort</td><td><code>df.sort_values("Col")</code></td></tr><tr><td>Group</td><td><code>df.groupby("Col").sum()</code></td></tr></tbody></table>',
- code:['pandas_basics.py','import pandas as pd\n\ndata = {\n    "Ticker"    : ["NOW", "LULU", "MU"],\n    "Shares"    : [100, 100, 100],\n    "Avg_Cost"  : [120.09, 192.50, 94.50],\n    "Cur_Price" : [135.00, 178.00, 102.00]\n}\ndf = pd.DataFrame(data)\n\n# Add calculated column — no loop needed!\ndf["P_L"] = (df["Cur_Price"] - df["Avg_Cost"]) * df["Shares"]\n\n# Filter — only winning positions\nwinners = df[df["P_L"] > 0]\nprint(df["P_L"].sum())\n\n# ibkr_report.py does:\n# df = pd.read_csv("activity.csv")\n# df.to_excel("report.xlsx", index=False)'],
- prompt:'Create a DataFrame with ticker, premium, contracts, dte. Add <code>income</code> = premium x contracts x 100. Filter rows where dte is under 30 and print.',
- hint:'df["income"] = df["premium"] * df["contracts"] * 100  then  print(df[df["dte"] < 30])',
- ph:'import pandas as pd\n\ndata = {\n    "ticker"   : ["NOW", "LULU", "MU"],\n    "premium"  : [2.50, 3.20, 1.80],\n    "contracts": [1, 1, 2],\n    "dte"      : [45, 21, 14]\n}\ndf = pd.DataFrame(data)\ndf["income"] = df["premium"] * df["contracts"] * 100\nprint(df[df["dte"] < 30])'},
-
-{b:'Lesson 12 · Layer 2',t:'pip, bash and sed — the command line',i:'These are not Python — they are tools around Python used in your WSL terminal every day.',
- body:'<div class="box"><div class="bh">pip — Python\'s app store</div><p style="color:#e8eaf0;font-size:13px;margin-bottom:8px">pip installs Python libraries. Without it you only have built-in Python.</p><div class="analogy">pip is the App Store. pandas is a spreadsheet app. Install once, import anywhere.</div></div>CODEBLOCK_0<div class="box"><div class="bh">conda / venv — isolated workspaces</div><div class="analogy">Like a separate WhatsApp account per project. Libraries do not mix between projects.</div></div>CODEBLOCK_1<div class="box"><div class="bh">bash — essential commands</div></div>CODEBLOCK_2<div class="box"><div class="bh">sed — find and replace in files</div><div class="analogy">sed is Ctrl+H in VS Code — but from the terminal, fully scriptable.</div></div>CODEBLOCK_3',
- code:[
-   ['terminal — pip','pip install pandas\npip install pandas flask yfinance\npip list\npip freeze > requirements.txt\npip install -r requirements.txt'],
-   ['terminal — conda','conda activate ntu\nconda env list\nconda deactivate\nwhich python'],
-   ['terminal — bash','pwd                        # where am I?\nls -la                     # list all files\ncd ~/IBKR                  # change directory\ncp file.py backup.py       # copy a file\npython my_script.py        # run Python file\ngrep "iv_rank" trade_setup.py   # search in file\ngrep -r "def " ~/IBKR/          # search all files'],
-   ['terminal — sed',"sed 's/NOW/NVDA/g' file.txt       # preview change\nsed -i 's/NOW/NVDA/g' file.txt    # edit file in place\nsed -i '/^#/d' script.py          # delete comment lines"]
- ],
- prompt:'This lesson is reference material. Click Run to mark it complete.',
- hint:'No coding needed here — these are terminal commands you run in WSL, not in Python.',
- ph:'# No code needed for this lesson\n# These are terminal commands used in WSL\n# Click Run to mark complete'},
-
-{b:'Lesson 13 · Layer 3',t:'List comprehensions — concise list building',i:'A list comprehension builds a new list in one line instead of writing a for loop. It is one of the most loved Python features — clean, fast, and Pythonic.',
- body:'<div class="box"><div class="bh">The analogy</div><div class="analogy">Normal loop = hand-picking each apple from a basket one by one. List comprehension = "give me all the red apples from this basket" — one instruction, done.</div></div>CODEBLOCK_0',
- code:['list_comprehension.py','numbers = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]\n\n# Old way — for loop\nsquares = []\nfor n in numbers:\n    squares.append(n ** 2)\n\n# New way — list comprehension\nsquares = [n ** 2 for n in numbers]\nprint(squares)   # [1, 4, 9, 16, 25, 36, 49, 64, 81, 100]\n\n# With condition — only even numbers\nevens = [n for n in numbers if n % 2 == 0]\nprint(evens)   # [2, 4, 6, 8, 10]\n\n# Real use — extract tickers from positions\npositions = [{"ticker": "NOW", "pl": 1491}, {"ticker": "LULU", "pl": -1450}]\nwinners = [p["ticker"] for p in positions if p["pl"] > 0]\nprint(winners)   # ["NOW"]'],
- prompt:'Given a list of numbers [1,2,3,4,5,6,7,8,9,10], use a list comprehension to create a new list of only the numbers greater than 5. Print it.',
- hint:'[n for n in numbers if n > 5]',
- ph:'numbers = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]\nbig = [n for n in numbers if n > 5]\nprint(big)'},
-
-{b:'Lesson 14 · Layer 3',t:'Lambda functions — one-line functions',i:'A lambda is a small, anonymous function defined in one line. Used when you need a quick function to pass into another function — like sorting or filtering.',
- body:'<div class="box"><div class="bh">The analogy</div><div class="analogy">A regular function is a named recipe card. A lambda is a sticky note — quick, temporary, one-use. You do not name it, you just use it right there.</div></div>CODEBLOCK_0',
- code:['lambda_functions.py','# Regular function\ndef square(x):\n    return x ** 2\n\n# Lambda equivalent — same thing, one line\nsquare = lambda x: x ** 2\nprint(square(5))   # 25\n\n# Most common use — sorting\ntickers = [{"ticker": "LULU", "pl": -1450}, {"ticker": "NOW", "pl": 1491}]\n\n# Sort by P&L\ntickers.sort(key=lambda x: x["pl"])\nprint(tickers)   # LULU first (most negative)\n\n# Sort descending\ntickers.sort(key=lambda x: x["pl"], reverse=True)\nprint(tickers)   # NOW first (most positive)\n\n# With filter()\nnumbers = [1, 2, 3, 4, 5, 6]\nevens = list(filter(lambda x: x % 2 == 0, numbers))\nprint(evens)   # [2, 4, 6]'],
- prompt:'Create a list of dictionaries with keys "name" and "score". Use a lambda to sort the list by score descending. Print the sorted list.',
- hint:'my_list.sort(key=lambda x: x["score"], reverse=True)',
- ph:'students = [{"name": "Ali", "score": 78}, {"name": "Raj", "score": 92}, {"name": "Sam", "score": 65}]\nstudents.sort(key=lambda x: x["score"], reverse=True)\nprint(students)'},
-
-{b:'Lesson 15 · Layer 3',t:'Decorators — wrapping functions',i:'A decorator adds extra behaviour to a function without changing its code. Used heavily in Flask (web routes), pandas, and logging.',
- body:'<div class="box"><div class="bh">The analogy</div><div class="analogy">A decorator is like gift wrapping. The gift (your function) stays the same inside. The wrapping (decorator) adds something on the outside — a bow, a tag, extra packaging.</div></div>CODEBLOCK_0',
- code:['decorators.py','import time\n\n# Define a decorator\ndef timer(func):\n    def wrapper(*args, **kwargs):\n        start = time.time()\n        result = func(*args, **kwargs)     # call the original function\n        end = time.time()\n        print(f"{func.__name__} took {end-start:.4f}s")\n        return result\n    return wrapper\n\n# Apply the decorator with @\n@timer\ndef process_report():\n    time.sleep(0.1)   # simulate work\n    print("Report processed")\n\nprocess_report()\n# Output:\n# Report processed\n# process_report took 0.1001s\n\n# Simple logging decorator\ndef log_call(func):\n    def wrapper(*args, **kwargs):\n        print(f"Calling: {func.__name__}")\n        return func(*args, **kwargs)\n    return wrapper'],
- prompt:'Write a decorator <code>log_call</code> that prints "Calling: function_name" before any function runs. Apply it to a simple function and call it.',
- hint:'def log_call(func): def wrapper(*args, **kwargs): print(f"Calling: {func.__name__}") return func(*args, **kwargs) return wrapper',
- ph:'def log_call(func):\n    def wrapper(*args, **kwargs):\n        print(f"Calling: {func.__name__}")\n        return func(*args, **kwargs)\n    return wrapper\n\n@log_call\ndef greet(name):\n    print(f"Hello, {name}")\n\ngreet("Jayaraman")'},
-
-{b:'Lesson 16 · Layer 3',t:'Regex — pattern matching in text',i:'Regex (Regular Expressions) is a powerful way to search, extract, and validate text patterns. Used to parse IBKR reports, extract trade data from strings, validate input.',
- body:'<div class="box"><div class="bh">The analogy</div><div class="analogy">Regex is like a metal detector on a beach. You sweep it across text and it lights up wherever your pattern appears — whether that is a phone number, a date, or a ticker symbol.</div></div>CODEBLOCK_0',
- code:['regex_basics.py','import re\n\ntext = "Trade: BUY 100 NOW @ $135.50 on 2024-01-15"\n\n# Find a pattern\nmatch = re.search(r"\\d+\\.\\d+", text)  # find decimal number\nif match:\n    print(f"Price found: {match.group()}")  # 135.50\n\n# Find all matches\nall_nums = re.findall(r"\\d+", text)\nprint(all_nums)   # [\'100\', \'135\', \'50\', \'2024\', \'01\', \'15\']\n\n# Extract date\ndate = re.search(r"\\d{4}-\\d{2}-\\d{2}", text)\nprint(date.group())   # 2024-01-15\n\n# Validate email\ndef is_valid_email(email):\n    pattern = r"^[\\w.-]+@[\\w.-]+\\.\\w+$"\n    return bool(re.match(pattern, email))\n\nprint(is_valid_email("jay@gmail.com"))   # True\nprint(is_valid_email("not-an-email"))    # False'],
- prompt:'Use regex to extract all numbers from the string "IBKR report: 150 contracts, premium $3.50, DTE 21 days". Print each number found.',
- hint:'import re  |  text = "..."  |  numbers = re.findall(r"\\d+\\.?\\d*", text)  |  print(numbers)',
- ph:'import re\n\ntext = "IBKR report: 150 contracts, premium $3.50, DTE 21 days"\nnumbers = re.findall(r"\\d+\\.?\\d*", text)\nprint(numbers)'},
-
-{b:'Lesson 17 · Layer 3',t:'datetime — working with dates and times',i:'The datetime module lets you work with dates, times, and durations. Essential for your IBKR system — calculating DTE, filtering trades by date, generating report timestamps.',
- body:'CODEBLOCK_0',
- code:['datetime_basics.py','from datetime import datetime, timedelta, date\n\n# Today\ntoday = datetime.now()\nprint(today)                        # 2024-01-15 10:30:00\nprint(today.strftime("%Y-%m-%d"))   # 2024-01-15 (formatted)\nprint(today.strftime("%d %b %Y"))   # 15 Jan 2024\n\n# Parse a date string\nexpiry = datetime.strptime("2024-02-16", "%Y-%m-%d")\n\n# Calculate DTE (Days To Expiry)\ndte = (expiry - today).days\nprint(f"DTE: {dte} days")\n\n# Add or subtract time\nnext_week = today + timedelta(days=7)\nlast_month = today - timedelta(days=30)\n\n# Filter trades by date\ntrades = [\n    {"ticker": "NOW", "date": "2024-01-10"},\n    {"ticker": "LULU", "date": "2024-01-20"}\n]\ncutoff = datetime.strptime("2024-01-15", "%Y-%m-%d")\nrecent = [t for t in trades if datetime.strptime(t["date"], "%Y-%m-%d") > cutoff]\nprint(recent)'],
- prompt:'Use datetime to: (1) get today\'s date, (2) calculate how many days until 31 Dec 2025, (3) print both.',
- hint:'from datetime import datetime  |  today = datetime.now()  |  target = datetime(2025, 12, 31)  |  days = (target - today).days',
- ph:'from datetime import datetime\n\ntoday = datetime.now()\ntarget = datetime(2025, 12, 31)\ndays = (target - today).days\nprint(f"Today: {today.strftime(\"%Y-%m-%d\")}")\nprint(f"Days until 31 Dec 2025: {days}")'},
-
-{b:'Lesson 18 · Layer 3',t:'os and pathlib — working with files and folders',i:'The os and pathlib modules let you work with your file system — find files, create folders, build paths. Used in ibkr_report.py to automatically find the latest IBKR export.',
- body:'CODEBLOCK_0',
- code:['os_pathlib.py','import os\nfrom pathlib import Path\n\n# Current directory\nprint(os.getcwd())\n\n# List files in a folder\nfiles = os.listdir(".")\nprint(files)\n\n# Check if file exists\nif os.path.exists("trades.txt"):\n    print("File found!")\n\n# pathlib — cleaner modern approach\np = Path.home() / "IBKR" / "reports"\nprint(p)   # /home/ejraman1/IBKR/reports\n\n# Create folder if not exists\np.mkdir(parents=True, exist_ok=True)\n\n# Find all CSV files in a folder\ncsv_files = list(Path(".").glob("*.csv"))\nprint(csv_files)\n\n# Get file info\nfor f in csv_files:\n    print(f.name, f.stat().st_size, "bytes")\n\n# Join paths safely\nreport_path = Path.home() / "IBKR" / "activity_statement.csv"\nprint(report_path.exists())'],
- prompt:'Use pathlib to: (1) get your home directory path, (2) build a path to a folder called "IBKR", (3) print both.',
- hint:'from pathlib import Path  |  home = Path.home()  |  ibkr = home / "IBKR"  |  print(home)  |  print(ibkr)',
- ph:'from pathlib import Path\n\nhome = Path.home()\nibkr = home / "IBKR"\n\nprint(f"Home: {home}")\nprint(f"IBKR folder: {ibkr}")'},
-
-{b:'Lesson 19 · Layer 3',t:'*args and **kwargs — flexible functions',i:'*args lets a function accept any number of positional arguments. **kwargs lets it accept any number of keyword arguments. Makes your functions professional and flexible.',
- body:'<div class="box"><div class="bh">The analogy</div><div class="analogy">*args is like a tray that holds however many dishes you bring. **kwargs is like a form where you can add any fields you want. Both handle the unknown gracefully.</div></div>CODEBLOCK_0',
- code:['args_kwargs.py','# *args — any number of positional arguments\ndef total_premium(*args):\n    return sum(args)\n\nprint(total_premium(2.50))             # 2.50\nprint(total_premium(2.50, 3.20, 1.80)) # 7.50\n\n# **kwargs — any number of keyword arguments\ndef print_trade(**kwargs):\n    for key, value in kwargs.items():\n        print(f"  {key}: {value}")\n\nprint_trade(ticker="NOW", premium=2.50, contracts=1)\nprint_trade(ticker="LULU", premium=3.20, contracts=2, dte=21)\n\n# Combining both\ndef log_trade(ticker, *args, **kwargs):\n    print(f"Ticker: {ticker}")\n    print(f"Values: {args}")\n    print(f"Details: {kwargs}")'],
- prompt:'Write a function <code>portfolio_summary(*tickers)</code> that accepts any number of ticker names and prints each one with its position number. Call it with 3 tickers.',
- hint:'def portfolio_summary(*tickers): for i, t in enumerate(tickers, 1): print(f"{i}. {t}")',
- ph:'def portfolio_summary(*tickers):\n    for i, ticker in enumerate(tickers, 1):\n        print(f"Position {i}: {ticker}")\n\nportfolio_summary("NOW", "LULU", "MU")'},
-];
-
-function buildBody(l){
-  var body=l.body;
-  if(Array.isArray(l.code[0])){
-    l.code.forEach(function(c,i){body=body.replace('CODEBLOCK_'+i,codeBlock(c[0],c[1]));});
-  } else {
-    body=body.replace('CODEBLOCK_0',codeBlock(l.code[0],l.code[1]));
+    h += '</div></div>';
   }
-  return body;
-}
-
-function render(n){
-  var m=document.getElementById('MN');
-  if(n===19){
-    var layers=[
-      {l:'Layer 1',s:'Done',c:'#4ade80',tags:['Variables','Data Types','Operators','if/elif/else','Loops','Functions','Lists','Dictionaries']},
-      {l:'Layer 2',s:'Done',c:'#fb923c',tags:['Classes & OOP','File I/O','try/except','Pandas','pip','conda','bash','sed']},
-      {l:'Layer 3',s:'Done',c:'#60a5fa',tags:['List comprehensions','Lambda','Decorators','Regex','datetime','os/pathlib','*args/**kwargs']},
+  h += '<div class="rsec" id="sec-fundamentals-'+d.symbol+'"><div class="rsec-t">Fundamentals</div><div class="mgrid">';
+  h += '<div class="mc"><div class="mv">$'+((fd.market_cap||0)/1e9).toFixed(1)+'B</div><div class="ml">Market Cap</div></div>';
+  h += '<div class="mc"><div class="mv">'+((fd.gross_margin||0)*100).toFixed(1)+'%</div><div class="ml">Gross Margin</div></div>';
+  h += '<div class="mc"><div class="mv">'+((fd.roe||0)*100).toFixed(1)+'%</div><div class="ml">ROE</div></div>';
+  h += '<div class="mc"><div class="mv">'+(fd.de_ratio||0).toFixed(2)+'</div><div class="ml">D/E Ratio</div></div>';
+  h += '<div class="mc"><div class="mv">'+(fd.beta||0).toFixed(2)+'</div><div class="ml">Beta</div></div>';
+  h += '<div class="mc"><div class="mv">$'+((fd.fcf||0)/1e6).toFixed(0)+'M</div><div class="ml">Free Cash Flow</div></div>';
+  h += '<div class="mc"><div class="mv">'+roic+'</div><div class="ml">ROIC</div></div>';
+  h += '<div class="mc"><div class="mv">'+wacc+'</div><div class="ml">WACC</div></div>';
+  h += '</div></div>';
+  h += '<div class="rsec" id="sec-valuation-'+d.symbol+'"><div class="rsec-t">Valuation &mdash; Current $'+price.toFixed(2)+'</div>';
+  // Adaptive valuation methods
+  var methods = val.methods || {};
+  var methodSel = val.method_selection || {};
+  var methodNames = Object.keys(methods);
+  var confidence = val.confidence || 'N/A';
+  var companyType = (val.company_type || '').replace(/_/g,' ');
+  var revCagr = val.rev_cagr;
+  var analystTarget = val.analyst_target;
+  var confCol = confidence === 'High' ? '#4CAF50' : confidence === 'Moderate' ? '#e8c97a' : '#ff6b6b';
+  h += '<table class="vtbl">';
+  // Company profile row
+  h += '<tr><td colspan="2" style="font-size:10px;color:#8fa3b8;padding-bottom:6px;">';
+  h += 'Profile: <b style="color:var(--text);">'+companyType+'</b>';
+  if (revCagr !== null && revCagr !== undefined) h += ' &nbsp;|&nbsp; Rev CAGR: <b style="color:var(--text);">'+revCagr+'%</b>';
+  if (val.is_cyclical) h += ' &nbsp;|&nbsp; <span style="color:#f39c12;">&#9651; Cyclical</span>';
+  if (val.asset_light) h += ' &nbsp;|&nbsp; <span style="color:#8fa3b8;">Asset-light</span>';
+  h += '</td></tr>';
+  // Methods used
+  if (methodNames.length > 0) {
+    methodNames.forEach(function(name) {
+      var val_amt = methods[name];
+      var note = (methodSel[name] && methodSel[name].reason) ? methodSel[name].reason : '';
+      h += '<tr><td>';
+      h += '<div style="font-size:11px;color:var(--text);">'+name+'</div>';
+      h += '<div style="font-size:10px;color:#8fa3b8;margin-top:1px;">'+note+'</div>';
+      h += '</td><td style="text-align:right;font-size:13px;color:var(--text);">$'+val_amt.toFixed(0)+'</td></tr>';
+    });
+  }
+  // Methods skipped (collapsed, just names)
+  var skipped = val.methods_skipped || [];
+  var removed = val.methods_removed || {};
+  if (skipped.length > 0 || Object.keys(removed).length > 0) {
+    h += '<tr><td colspan="2" style="font-size:10px;color:#5c7a94;padding-top:4px;">';
+    h += 'Skipped: ';
+    skipped.forEach(function(name) {
+      var reason = (methodSel[name] && methodSel[name].reason) ? methodSel[name].reason : '';
+      h += '<span title="'+reason+'" style="cursor:help;text-decoration:underline dotted;">'+name+'</span> &nbsp;';
+    });
+    Object.keys(removed).forEach(function(name) {
+      h += '<span style="color:#e74c3c;" title="Outlier removed">'+name+' (outlier)</span> &nbsp;';
+    });
+    h += '</td></tr>';
+  }
+  // Analyst target as reference
+  if (analystTarget) {
+    var upside = ((analystTarget - price) / price * 100).toFixed(1);
+    var upsideCol = upside > 0 ? '#4CAF50' : '#ff6b6b';
+    h += '<tr><td><div style="font-size:11px;color:var(--text);">Analyst Consensus Target</div>';
+    h += '<div style="font-size:10px;color:#8fa3b8;">Wall St mean price target (reference only)</div></td>';
+    h += '<td style="text-align:right;font-size:13px;color:'+upsideCol+';">$'+analystTarget+' <span style="font-size:10px;">('+upside+'%)</span></td></tr>';
+  }
+  // Composite + confidence
+  h += '<tr style="border-top:1px solid var(--card-border);"><td>';
+  h += '<div><strong>Composite Intrinsic Value</strong></div>';
+  h += '<div style="font-size:10px;margin-top:2px;">Confidence: <span style="color:'+confCol+';">'+confidence+'</span></div>';
+  h += '</td><td style="text-align:right;"><strong style="color:'+dc+';">$'+comp.toFixed(0)+'</strong>';
+  h += ' <span style="font-size:10px;color:'+dc+';">'+di+' '+margin+'% '+dir+'</span></td></tr>';
+  // VIA Intrinsic Value row
+  var vr = d.via_result || {};
+  if (vr.via_value && !vr.error) {
+    var viaPrice = parseFloat(d.price || 0);
+    var viaVal = vr.via_value;
+    var viaDiff = viaPrice > 0 ? ((viaVal - viaPrice) / viaPrice * 100).toFixed(1) : 0;
+    var viaDir = viaDiff > 0 ? '&#8595; ' + Math.abs(viaDiff) + '% below' : '&#8593; ' + Math.abs(viaDiff) + '% above';
+    var viaCol = viaVal > viaPrice ? '#4CAF50' : '#ff6b6b';
+    var viaNote = '';
+    if (d.via_growth) viaNote += 'Growth: ' + d.via_growth + '%';
+    if (d.via_mos) viaNote += ' | MOS: ' + d.via_mos + '%';
+    if (vr.years_used) viaNote += ' | ' + vr.years_used + ' EPS years';
+    h += '<tr style="border-top:1px solid var(--card-border);background:rgba(201,168,76,0.05);"><td>';
+    h += '<div><strong style="color:#c9a84c;">VIA Intrinsic Value</strong> <span style="font-size:9px;color:#8fa3b8;">(Value Investing Academy)</span></div>';
+    h += '<div style="font-size:10px;color:#8fa3b8;margin-top:2px;">'+viaNote+'</div>';
+    if (d.via_growth_reason) h += '<div style="font-size:10px;color:#5c7a94;margin-top:1px;">Growth: '+d.via_growth_reason.replace(/^\*+\s*/,"")+'</div>';
+    if (d.via_mos_reason) h += '<div style="font-size:10px;color:#5c7a94;margin-top:1px;">MOS: '+d.via_mos_reason.replace(/^\*+\s*/,"")+'</div>';
+    h += '</td><td style="text-align:right;">';
+    h += '<strong style="color:'+viaCol+';">$'+viaVal.toFixed(0)+'</strong>';
+    h += ' <span style="font-size:10px;color:'+viaCol+';">'+viaDir+'</span>';
+    h += '<div style="font-size:9px;color:#8fa3b8;margin-top:2px;">NPV $'+vr.npv+' &minus; '+d.via_mos+'% MOS</div>';
+    h += '</td></tr>';
+  } else if (vr.error) {
+    h += '<tr style="border-top:1px solid var(--card-border);"><td colspan="2" style="font-size:10px;color:#5c7a94;">VIA Method: '+vr.error+'</td></tr>';
+  }
+  h += '</table></div>';
+  // Business Trend section
+  var tr = d.trend || {};
+  if (!tr.error && tr.revenue) {
+    var trendYears = '';
+    if (tr.revenue && tr.revenue.values) {
+      var yrs = Object.keys(tr.revenue.values).sort();
+      if (yrs.length >= 2) trendYears = ' ('+yrs[0]+'–'+yrs[yrs.length-1]+')';
+    }
+    h += '<div class="rsec" id="sec-trend-'+d.symbol+'"><div class="rsec-t">Business Trend'+trendYears+'</div>';
+    h += '<table style="width:100%;border-collapse:collapse;font-size:11px;">';
+    h += '<tr style="background:#1b2d42;">';
+    h += '<th style="padding:5px 10px;text-align:left;color:#c9a84c;border:1px solid #1e3a52;">Metric</th>';
+    h += '<th style="padding:5px 10px;text-align:left;color:#c9a84c;border:1px solid #1e3a52;">Direction</th>';
+    h += '<th style="padding:5px 10px;text-align:left;color:#c9a84c;border:1px solid #1e3a52;">CAGR</th>';
+    h += '<th style="padding:5px 10px;text-align:left;color:#c9a84c;border:1px solid #1e3a52;">Recent Years</th>';
+    h += '</tr>';
+    var metrics = [
+      {key:'revenue', label:'Revenue'},
+      {key:'eps', label:'EPS (Diluted)'},
+      {key:'fcf', label:'Free Cash Flow'},
+      {key:'gross_margin', label:'Gross Margin %'}
     ];
-    var rh=layers.map(function(r){return '<div style="background:#1a1d27;border:1px solid #2e3250;border-radius:9px;padding:13px 15px;margin-bottom:10px"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px"><span style="font-weight:600;font-size:14px;color:'+r.c+'">'+r.l+'</span><span style="font-size:12px;color:'+r.c+'">'+r.s+'</span></div><div style="display:flex;flex-wrap:wrap;gap:6px">'+r.tags.map(function(t){return '<span style="background:rgba(255,255,255,.05);border:1px solid #2e3250;color:'+r.c+';border-radius:10px;padding:2px 9px;font-size:11px">'+t+'</span>';}).join('')+'</div></div>';}).join('');
-    m.innerHTML='<div class="lbadge">Your complete roadmap</div><div class="ltitle">Everything you have learned</div><div class="lintro" style="margin-bottom:16px">You have covered the complete Python curriculum — from absolute basics to professional tools. Here is your full learning map.</div>'+rh+'<div class="success-card"><strong>What to do right now:</strong> Open ibkr_report.py. You will now recognise classes, try/except, pandas operations, list comprehensions, datetime, and pathlib. Every line of AI-generated code you read will now make sense.</div><div class="tip"><strong>Layer 4 (future):</strong> numpy, matplotlib, requests/APIs, JSON, SQLAlchemy, logging, Flask/FastAPI, async/await, unit testing, packaging.</div><div class="nr"><button class="bnav" onclick="go(18)">← Previous</button><button class="bnav p" onclick="go(0)">↺ Start over</button></div>';
-    markDone(19);
-    return;
+    metrics.forEach(function(m) {
+      var md = tr[m.key] || {};
+      var dir = md.direction || 'N/A';
+      var dirCol = dir === 'Growing' ? '#4CAF50' : dir === 'Declining' ? '#ff6b6b' : '#e8c97a';
+      var dirArrow = dir === 'Growing' ? '&#8593; ' : dir === 'Declining' ? '&#8595; ' : '&#8594; ';
+      var cagr = md.cagr ? md.cagr + '%/yr' : '—';
+      var vals = md.values || {};
+      var valStr = Object.keys(vals).sort().map(function(yr){
+        return '<span style="color:#8fa3b8;">'+yr+':</span> '+vals[yr];
+      }).join(' &nbsp;');
+      h += '<tr style="border-bottom:1px solid #1e3a52;">';
+      h += '<td style="padding:5px 10px;color:#e8edf2;border:1px solid #1e3a52;">'+m.label+'</td>';
+      h += '<td style="padding:5px 10px;color:'+dirCol+';border:1px solid #1e3a52;">'+dirArrow+dir+'</td>';
+      h += '<td style="padding:5px 10px;color:#e8edf2;border:1px solid #1e3a52;">'+cagr+'</td>';
+      h += '<td style="padding:5px 10px;color:#e8edf2;border:1px solid #1e3a52;font-size:10px;">'+valStr+'</td>';
+      h += '</tr>';
+    });
+    h += '</table></div>';
   }
-  var l=lessons[n];
-  m.innerHTML='<div class="lbadge">'+l.b+'</div><div class="ltitle">'+l.t+'</div><div class="lintro">'+l.i+'</div>'+buildBody(l)+ex(n,l.prompt,l.hint,l.ph)+navRow(n);
+
+  // Trade Setup section
+  var ts = d.trade_setup || {};
+  var setup = ts.setup || {};
+  var ivQ = ts.iv_quality || 'estimated';
+  var ivFlag = ivQ === 'live' ? '<span class="iv-live">&#10003; Live</span>' : '<span class="iv-est">&#9888; Estimated</span>';
+  var sigClass = setup.signal_color === 'green' ? 'ts-signal-green' : setup.signal_color === 'red' ? 'ts-signal-red' : 'ts-signal-amber';
+  if (setup.rec_strike) {
+    h += '<div class="rsec" id="sec-tradesetup-'+d.symbol+'"><div class="rsec-t">Trade Setup</div>';
+    h += '<div class="ts-grid">';
+    h += '<div class="ts-cell"><div class="ts-val">$'+setup.rec_strike+'</div><div class="ts-lbl">Rec Strike (1.5 SD, ~0.17&delta;)</div></div>';
+    h += '<div class="ts-cell"><div class="ts-val">'+setup.rec_dte+' days</div><div class="ts-lbl">Rec DTE</div></div>';
+    h += '<div class="ts-cell"><div class="ts-val">$'+setup.min_premium+'</div><div class="ts-lbl">Min Premium ('+setup.min_premium_pct+'% of strike)</div></div>';
+    h += '<div class="ts-cell"><div class="ts-val">'+(ts.current_iv||'N/A')+'% '+ivFlag+'</div><div class="ts-lbl">IV Current</div></div>';
+    h += '<div class="ts-cell"><div class="ts-val">'+(ts.hv||'N/A')+'%</div><div class="ts-lbl">Hist Vol (HV 30d)</div></div>';
+    var ivRankVal = (ts.iv_rank !== undefined && ts.iv_rank !== null) ? ts.iv_rank : null;
+  var ivRankDisplay = ivRankVal !== null ? '<span style="color:'+(ivRankVal>=30?'#4CAF50':'#ff6b6b')+'">'+(ivRankVal)+'% '+(ivRankVal>=30?'✓ &gt;30':'✗ &lt;30')+'</span>' : 'N/A';
+  h += '<div class="ts-cell"><div class="ts-val">'+ivRankDisplay+'</div><div class="ts-lbl">IV Rank</div></div>';
+    h += '</div>';
+    h += '<div style="margin-top:8px;font-size:12px;"><span class="'+sigClass+'">'+setup.trade_signal+'</span>';
+    h += ' &nbsp;<span style="color:var(--text-dim);font-size:11px;">'+setup.iv_hv_signal+'</span></div>';
+    h += '<div style="font-size:10px;color:var(--text-dim);margin-top:4px;">'+setup.dte_reason+'</div>';
+    h += '</div>';
+  }
+
+  // Technical Analysis section
+  var tc = d.technicals || {};
+  if (tc.rsi !== undefined && !tc.error) {
+    h += '<div class="rsec" id="sec-technicals-'+d.symbol+'"><div class="rsec-t">Technical Analysis</div>';
+    h += '<div class="ts-grid">';
+    // RSI
+    var rsiCol = tc.rsi >= 70 ? '#ff6b6b' : tc.rsi <= 30 ? '#4CAF50' : '#e8c97a';
+    h += '<div class="ts-cell"><div class="ts-val" style="color:'+rsiCol+'">'+tc.rsi+'</div>';
+    h += '<div class="ts-lbl"><b>RSI (14)</b> &mdash; Relative Strength Index</div>';
+    h += '<div style="font-size:10px;color:#8fa3b8;margin-top:2px;">Measures if stock is overbought (&gt;70) or oversold (&lt;30) based on recent price momentum</div>';
+    h += '<div style="font-size:10px;color:var(--text-dim);margin-top:3px;">'+tc.rsi_exp+'</div></div>';
+    // MA Signal
+    var maCol = (tc.ma_signal||'').includes('Bullish')||(tc.ma_signal||'').includes('Golden') ? '#4CAF50' : '#ff6b6b';
+    h += '<div class="ts-cell"><div class="ts-val" style="color:'+maCol+';font-size:11px;">'+tc.ma_signal+'</div>';
+    h += '<div class="ts-lbl"><b>MA 50/200</b> &mdash; Moving Average Crossover</div>';
+    h += '<div style="font-size:10px;color:#8fa3b8;margin-top:2px;">Compares 50-day vs 200-day average price to identify trend direction. Golden cross = bullish, Death cross = bearish</div>';
+    h += '<div style="font-size:10px;color:var(--text-dim);margin-top:2px;">MA50 $'+(tc.ma50||'N/A')+' &nbsp;|&nbsp; MA200 $'+(tc.ma200||'N/A')+'</div>';
+    h += '<div style="font-size:10px;color:var(--text-dim);margin-top:2px;">'+tc.ma_exp+'</div></div>';
+    // MACD
+    var macdCol = tc.macd_signal === 'Bullish' ? '#4CAF50' : '#ff6b6b';
+    var macdLabel = tc.macd_cross ? tc.macd_cross : tc.macd_signal;
+    h += '<div class="ts-cell"><div class="ts-val" style="color:'+macdCol+';font-size:11px;">'+macdLabel+'</div>';
+    h += '<div class="ts-lbl"><b>MACD (12,26,9)</b> &mdash; Moving Avg Convergence Divergence</div>';
+    h += '<div style="font-size:10px;color:#8fa3b8;margin-top:2px;">Tracks short-term vs long-term momentum. When MACD crosses above signal line = bullish; below = bearish</div>';
+    h += '<div style="font-size:10px;color:var(--text-dim);margin-top:3px;">'+tc.macd_exp+'</div></div>';
+    // 52w Position
+    var w52col = tc.pos_52w >= 80 ? '#f39c12' : tc.pos_52w <= 20 ? '#e74c3c' : '#4CAF50';
+    h += '<div class="ts-cell"><div class="ts-val" style="color:'+w52col+'">'+tc.pos_52w+'%</div>';
+    h += '<div class="ts-lbl"><b>52-Week Position</b> &mdash; Price vs 1-Year Range</div>';
+    h += '<div style="font-size:10px;color:#8fa3b8;margin-top:2px;">Where current price sits within its 1-year high/low range. 0% = at yearly low, 100% = at yearly high</div>';
+    h += '<div style="font-size:10px;color:var(--text-dim);margin-top:2px;">Low $'+tc.low_52w+' &rarr; High $'+tc.high_52w+'</div>';
+    h += '<div style="font-size:10px;color:var(--text-dim);margin-top:2px;">'+tc.w52_exp+'</div></div>';
+    // Analyst
+    var analystCol = (tc.analyst_rating||'').toLowerCase().includes('buy') ? '#4CAF50' : (tc.analyst_rating||'').toLowerCase().includes('sell') ? '#ff6b6b' : '#e8c97a';
+    var analystStr = tc.analyst_rating ? tc.analyst_rating + (tc.analyst_target ? ' &nbsp;|&nbsp; Target $'+tc.analyst_target : '') : 'N/A';
+    h += '<div class="ts-cell"><div class="ts-val" style="color:'+analystCol+';font-size:11px;">'+analystStr+'</div>';
+    h += '<div class="ts-lbl"><b>Analyst Consensus</b> &mdash; Wall Street Rating &amp; Target</div>';
+    h += '<div style="font-size:10px;color:#8fa3b8;margin-top:2px;">Aggregated rating and mean price target from Wall Street analysts covering this stock</div>';
+    h += '<div style="font-size:10px;color:var(--text-dim);margin-top:3px;">'+tc.analyst_exp+'</div></div>';
+    h += '</div>';
+    // Wheel signals
+    if (tc.wheel_signals && tc.wheel_signals.length) {
+      h += '<div style="margin-top:8px;font-size:11px;color:var(--text-dim);">';
+      tc.wheel_signals.forEach(function(s){ h += '&#9654; '+s+'&nbsp;&nbsp;'; });
+      h += '</div>';
+    }
+    h += '</div>';
+  }
+  var ragPrice = d.rag_price ? '$'+parseFloat(d.rag_price).toFixed(2) : null;
+  var ragTs = d.rag_timestamp ? d.rag_timestamp.substring(0,16).replace('T',' ') : null;
+  var ragMeta = '';
+  if (ragPrice && ragTs) {
+    var priceMatch = Math.abs((parseFloat(d.rag_price) - price) / price * 100).toFixed(1);
+    var priceWarn = parseFloat(priceMatch) > 5 ? ' <span style="color:#f39c12;">&#9888; Price moved '+priceMatch+'% since analysis</span>' : '';
+    ragMeta = '<div style="font-size:10px;color:#8fa3b8;margin-bottom:6px;">Analysis run at '+ragPrice+' on '+ragTs+' SGT'+priceWarn+'</div>';
+  }
+  h += '<div class="rsec"><div class="rsec-t">Intelligence</div>'+ragMeta+'<div class="intel">'+fmt(d.analysis)+'</div></div>';
+  h += '<div class="rsec"><div class="rsec-t">Sources</div>'+(srcs||'<span style="color:var(--text-dim);font-size:11px;">No recent sources</span>')+'</div>';
+  h += '<div class="cfooter"><span>'+(d.cache_summary||'')+'</span></div>';
+  h += '</div>';
+  return h;
 }
 
-render(0);
-initPyodide();
+
+  var discAllData={};var discScanningFor=null;var discPollInterval=null;var discCacheSnapshot={};
+  function showDiscovery(){
+    document.getElementById('empty-state').style.display='none';
+    document.getElementById('wa-panel').style.display='none';
+    document.getElementById('disc-panel').style.display='block';
+    document.querySelectorAll('.ticker-card').forEach(function(c){c.style.display='none';});
+    loadDiscovery();
+  }
+  function loadDiscovery(){
+    fetch('/discovery').then(function(r){return r.json();}).then(function(data){
+      if(data.error){
+        document.getElementById('disc-results').innerHTML='<div class="disc-no-result">'+data.error+'</div>';
+        document.getElementById('disc-scan-info').textContent='No cache — click a sector to scan';
+        renderSectorButtons({});return;
+      }
+      discAllData=data;discCacheSnapshot=JSON.parse(JSON.stringify(data));
+      updateScanInfo(data,'cache');renderSectorButtons(data.sectors);renderDiscovery(data.sectors,'cache');
+    }).catch(function(){document.getElementById('disc-results').innerHTML='<div class="disc-no-result">Failed to load.</div>';});
+  }
+  function updateScanInfo(data,source){
+    var badge=source==='cache'
+      ?'<span style="background:#1a3a1a;color:#6fcf6f;padding:2px 7px;border-radius:10px;font-size:9px;margin-left:6px;">CACHE</span>'
+      :'<span style="background:#1a2a3a;color:#6fb3cf;padding:2px 7px;border-radius:10px;font-size:9px;margin-left:6px;">LIVE</span>';
+    document.getElementById('disc-scan-info').innerHTML=
+      'Last scan: '+(data.scan_date||'?')+' '+(data.scan_time||'')+
+      ' | '+(data.universe_size||'516')+' tickers | '+(data.total_candidates||0)+' candidates'+badge;
+  }
+  var ALL_SECTORS=['Communication Services','Consumer Discretionary','Consumer Staples',
+    'Energy','Financials','Health Care','Industrials','Information Technology',
+    'Materials','Real Estate','Utilities'];
+  function renderSectorButtons(cachedSectors){
+    var c=document.getElementById('disc-sector-btns');c.innerHTML='';
+    var cacheBtn=document.createElement('button');
+    cacheBtn.className='disc-filter-btn';cacheBtn.innerHTML='&#128190; Show Cache';
+    cacheBtn.onclick=function(){
+      if(discPollInterval){clearInterval(discPollInterval);discPollInterval=null;}
+      discScanningFor=null;updateScanInfo(discCacheSnapshot,'cache');
+      renderDiscovery(discCacheSnapshot.sectors||{},'cache');
+    };
+    c.appendChild(cacheBtn);
+    ALL_SECTORS.forEach(function(sector){
+      var btn=document.createElement('button');
+      var inCache=cachedSectors&&cachedSectors[sector]&&cachedSectors[sector].length>0;
+      btn.className='disc-filter-btn'+(inCache?' has-data':'');
+      btn.dataset.sector=sector;
+      btn.innerHTML=sector+(inCache?' <span style="color:#6fcf6f;font-size:9px;">&#10003;</span>':'');
+      btn.onclick=function(){triggerSectorScan(sector,btn);};
+      c.appendChild(btn);
+    });
+  }
+  function triggerSectorScan(sector,btn){
+    if(discScanningFor===sector)return;
+    discScanningFor=sector;btn.disabled=true;
+    btn.innerHTML=sector+' <span style="color:#f0c060;font-size:9px;">&#9656; scanning...</span>';
+    document.getElementById('disc-results').innerHTML=
+      '<div class="disc-sector"><div class="disc-sector-title">'+sector+'</div>'+
+      '<div class="disc-no-result" id="disc-scan-msg">&#9656; Scanning '+sector+'... (~3 min)<br>'+
+      'You can continue using the UI. Results will appear automatically.</div></div>';
+    document.getElementById('disc-scan-info').innerHTML=
+      'Scanning <b>'+sector+'</b>...'+
+      '<span style="background:#3a2a00;color:#f0c060;padding:2px 7px;border-radius:10px;font-size:9px;margin-left:6px;">SCANNING</span>';
+    var prevTime=discCacheSnapshot.scan_time||'';
+    fetch('/run_discovery',{method:'POST',headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({sectors:[sector]})})
+    .then(function(r){return r.json();})
+    .then(function(data){
+      if(data.status==='error'){
+        document.getElementById('disc-scan-msg').textContent='Error: '+data.message;
+        btn.disabled=false;discScanningFor=null;return;
+      }
+      if(discPollInterval)clearInterval(discPollInterval);
+      var elapsed=0;
+      discPollInterval=setInterval(function(){
+        elapsed+=15;
+        fetch('/discovery').then(function(r){return r.json();}).then(function(fresh){
+          if(fresh.error)return;
+          var freshSector=fresh.sectors&&fresh.sectors[sector];
+          if(freshSector&&freshSector.length>0&&fresh.scan_time!==prevTime){
+            clearInterval(discPollInterval);discPollInterval=null;discScanningFor=null;
+            discAllData=fresh;discCacheSnapshot=JSON.parse(JSON.stringify(fresh));
+            updateScanInfo(fresh,'live');renderSectorButtons(fresh.sectors);renderDiscovery(fresh.sectors,'live');
+          } else {
+            var msg=document.getElementById('disc-scan-msg');
+            if(msg)msg.innerHTML='&#9656; Scanning '+sector+'... ('+elapsed+'s elapsed)<br>Results will appear automatically.';
+          }
+        });
+      },15000);
+    })
+    .catch(function(){
+      document.getElementById('disc-scan-msg').textContent='Failed to start. Run manually in terminal.';
+      btn.disabled=false;discScanningFor=null;
+    });
+  }
+  function renderDiscovery(sectors,source){
+    var c=document.getElementById('disc-results');c.innerHTML='';
+    if(!sectors||Object.keys(sectors).length===0){
+      c.innerHTML='<div class="disc-no-result">No data yet. Click a sector button to scan.</div>';return;
+    }
+    Object.keys(sectors).forEach(function(sector){
+      var results=sectors[sector];
+      var sDiv=document.createElement('div');sDiv.className='disc-sector';
+      var title=document.createElement('div');title.className='disc-sector-title';
+      title.textContent=sector+(results.length===0?' - no candidates today':'');
+      sDiv.appendChild(title);
+      if(results.length===0){c.appendChild(sDiv);return;}
+      var cards=document.createElement('div');cards.className='disc-cards';
+      results.forEach(function(r){
+        var card=document.createElement('div');card.className='disc-card';
+        card.innerHTML=
+          '<div class="disc-ticker">'+r.ticker+'</div>'+
+          '<div class="disc-name">'+(r.name||'')+'</div>'+
+          '<div class="disc-meta">Price: <span>$'+r.price+'</span></div>'+
+          
+          '<div class="disc-meta">HV30: <span>'+r.hv30+'%</span></div>'+
+          '<div class="disc-meta">Strike: <span>$'+r.strike_high+'</span></div>'+
+          '<div class="disc-meta">Est. Prem: <span>'+r.prem_pct+'%</span></div>'+
+          '<div class="disc-meta">D/E: <span>'+r.de_ratio+'</span></div>'+
+          '<div class="disc-meta">Days-Earn: <span>'+r.days_to_earnings+'</span></div>'+
+          '<div class="disc-meta">EPS (TTM): <span>$'+(r.trailing_eps||'—')+'</span></div>'+
+          '<div class="disc-meta">Profitable: <span>'+(r.years_profitable||'—')+'/4 yrs</span></div>';
+        card.onclick=function(){
+          document.getElementById('disc-panel').style.display='none';
+          document.getElementById('extra').value=r.ticker;doAnalyse();
+        };
+        cards.appendChild(card);
+      });
+      sDiv.appendChild(cards);c.appendChild(sDiv);
+    });
+  }
+  function runDiscoveryScan(){
+    var btn=document.getElementById('disc-run-btn');
+    var status=document.getElementById('disc-run-status');
+    btn.disabled=true;status.textContent='Starting full scan (~20 min)...';
+    fetch('/run_discovery',{method:'POST',headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({sectors:[]})})
+    .then(function(r){return r.json();})
+    .then(function(data){
+      status.textContent=data.message||'Full scan started.';
+      setTimeout(function(){btn.disabled=false;status.textContent='';},10000);
+    }).catch(function(){status.textContent='Failed.';btn.disabled=false;});
+  }
+
+  /* ── Alerts (Phase 9) ── */
+  function showAlerts(){
+    document.getElementById('empty-state').style.display='none';
+    document.getElementById('disc-panel').style.display='none';
+    document.getElementById('wa-panel').style.display='block';
+    pollAlerts();
+  }
+  function waCard(a, cls){
+    var reasonsHtml = a.reasons ? '<div class="wa-reasons">'+a.reasons.join(' &middot; ')+'</div>' : '';
+    return '<div class="wa-card '+cls+'"><span class="wa-ticker">'+a.ticker+'</span>'+
+           '<div class="wa-msg">'+(a.message||'')+'</div>'+reasonsHtml+'</div>';
+  }
+  function renderAlerts(data){
+    var rollList = document.getElementById('wa-roll-list');
+    var profitList = document.getElementById('wa-profit-list');
+    var candList = document.getElementById('wa-candidate-list');
+
+    rollList.innerHTML = (data.roll_triggers||[]).length
+      ? data.roll_triggers.map(function(a){return waCard(a,'roll');}).join('')
+      : '<div class="disc-no-result">No roll triggers right now.</div>';
+
+    profitList.innerHTML = (data.profit_targets||[]).length
+      ? data.profit_targets.map(function(a){return waCard(a,'profit');}).join('')
+      : '<div class="disc-no-result">No positions at the 50% profit target.</div>';
+
+    candList.innerHTML = (data.new_candidates||[]).length
+      ? data.new_candidates.map(function(a){return waCard(a,'candidate');}).join('')
+      : '<div class="disc-no-result">No new candidates since the last scan.</div>';
+
+    var total = data.total_count || 0;
+    var badge = document.getElementById('wa-badge');
+    var banner = document.getElementById('wa-banner');
+    var bannerText = document.getElementById('wa-banner-text');
+    if (total > 0) {
+      badge.style.display = 'inline-block'; badge.textContent = total;
+      banner.style.display = 'flex';
+      bannerText.textContent = total + ' alert' + (total === 1 ? '' : 's') + ' need review';
+    } else {
+      badge.style.display = 'none'; banner.style.display = 'none';
+    }
+    var note = document.getElementById('wa-cache-note');
+    note.textContent = (data.cache_age_min !== undefined) ? '(' + data.cache_age_min + 'm old)' : '';
+  }
+  function pollAlerts(){
+    fetch('/alerts').then(function(r){return r.json();}).then(renderAlerts)
+      .catch(function(e){console.error('Alerts poll failed', e);});
+  }
+  function runAlertsScan(){
+    var btn = document.getElementById('wa-refresh-btn');
+    btn.disabled = true; btn.textContent = 'Scanning...';
+    fetch('/run_alerts_scan', {method:'POST'}).then(function(r){return r.json();})
+      .then(function(){ pollAlerts(); btn.disabled=false; btn.textContent='Refresh'; })
+      .catch(function(){ btn.disabled=false; btn.textContent='Refresh'; });
+  }
+  // Background polling so the badge/banner update even if you're on another tab
+  pollAlerts();
+  setInterval(pollAlerts, 5 * 60 * 1000);
+
 </script>
 </body>
 </html>
