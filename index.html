@@ -89,6 +89,21 @@ body{font-family:'Segoe UI',system-ui,sans-serif;background:#0f1117;color:#e8eaf
 .warn{background:rgba(245,200,66,.07);border:1px solid rgba(245,200,66,.25);border-radius:9px;padding:12px 15px;margin:12px 0;font-size:13px;color:#d4c07a;line-height:1.7}
 .success-card{background:rgba(74,222,128,.07);border:1px solid rgba(74,222,128,.25);border-radius:9px;padding:12px 15px;margin:12px 0;font-size:13px;color:#4ade80;line-height:1.7}
 @keyframes pulse{0%,60%,100%{transform:translateY(0)}30%{transform:translateY(-5px)}}
+.py-status{font-size:10px;padding:3px 9px;border-radius:5px;font-weight:600;border:1px solid;margin-left:6px;transition:all .3s}
+.py-status.loading{background:rgba(251,191,36,.1);color:#fbbf24;border-color:rgba(251,191,36,.3)}
+.py-status.ready{background:rgba(74,222,128,.1);color:#4ade80;border-color:rgba(74,222,128,.3)}
+.py-status.fail{background:rgba(239,68,68,.1);color:#ef4444;border-color:rgba(239,68,68,.3)}
+.out-real{background:#0d0f1a;border:1px solid #2e3250;border-radius:0 0 7px 7px;padding:10px 13px;font-family:monospace;font-size:12px;line-height:1.7;min-height:38px;max-height:180px;overflow-y:auto;white-space:pre-wrap;word-break:break-all;color:#7ee787;margin:0 0 6px}
+.out-real.err{color:#ff7b72}
+.out-real.ph{color:#555;font-style:italic}
+.run-row-live{display:flex;align-items:center;gap:8px;background:#22263a;border:1px solid #2e3250;border-bottom:none;border-radius:7px 7px 0 0;padding:7px 10px}
+.run-label{font-size:10px;font-weight:600;color:#fb923c;text-transform:uppercase;letter-spacing:.5px;flex:1}
+.brun-live{background:#4ade80;color:#0f1117;border:none;border-radius:5px;padding:5px 13px;font-size:11px;font-weight:700;cursor:pointer;display:flex;align-items:center;gap:4px}
+.brun-live:hover{background:#22c55e}
+.brun-live:disabled{opacity:.4;cursor:not-allowed}
+.breset{background:transparent;color:#8b90a8;border:1px solid #2e3250;border-radius:5px;padding:5px 10px;font-size:11px;cursor:pointer}
+.breset:hover{color:#e8eaf0;border-color:#8b90a8}
+.cin-wrap{position:relative}
 </style>
 </head>
 <body>
@@ -100,6 +115,7 @@ body{font-family:'Segoe UI',system-ui,sans-serif;background:#0f1117;color:#e8eaf
     <div class="prog-label"><span>Progress</span><span id="PT">0 / 20</span></div>
     <div class="prog-track"><div class="prog-fill" id="PF"></div></div>
   </div>
+  <span class="py-status loading" id="PYST">⏳ Python loading…</span>
   <button class="tutor-btn" id="TBTN" onclick="toggleTutor()">💬 Ask tutor</button>
 </div>
 
@@ -296,17 +312,100 @@ function chk(code,n){
   return{ok:true,m:successes[n]||'Done!'};
 }
 
+var pyodide=null,pyReady=false,pyQueue=null;
+
+function initPyodide(){
+  var s=document.createElement('script');
+  s.src='https://cdn.jsdelivr.net/pyodide/v0.27.5/full/pyodide.js';
+  s.onload=function(){
+    loadPyodide().then(function(py){
+      pyodide=py;
+      pyodide.setStdout({batched:function(t){appendPyOut(t+'\n');}});
+      pyodide.setStderr({batched:function(t){appendPyOut('[err] '+t+'\n',true);}});
+      pyReady=true;
+      var b=document.getElementById('PYST');
+      if(b){b.className='py-status ready';b.textContent='✓ Python ready';}
+      if(pyQueue){runPy(pyQueue.code,pyQueue.n);pyQueue=null;}
+    }).catch(function(){
+      var b=document.getElementById('PYST');
+      if(b){b.className='py-status fail';b.textContent='✗ Python failed';}
+    });
+  };
+  document.head.appendChild(s);
+}
+
+var _outEl=null,_outErr=false;
+function appendPyOut(text,isErr){
+  if(!_outEl)return;
+  if(isErr)_outErr=true;
+  _outEl.classList.toggle('err',_outErr);
+  _outEl.classList.remove('ph');
+  _outEl.textContent+=text;
+  _outEl.scrollTop=_outEl.scrollHeight;
+}
+
+function runPy(code,n){
+  if(!pyReady){pyQueue={code:code,n:n};return;}
+  var btn=document.getElementById('RBTN');
+  if(btn){btn.disabled=true;btn.innerHTML='⏳ Running…';}
+  _outEl=document.getElementById('ROUT');
+  _outErr=false;
+  if(_outEl){_outEl.className='out-real ph';_outEl.textContent='';}
+  pyodide.runPythonAsync(code).then(function(){
+    if(_outEl&&!_outEl.textContent.trim()){_outEl.classList.add('ph');_outEl.textContent='(no output)';}
+    else if(_outEl){_outEl.classList.remove('ph');}
+    if(btn){btn.disabled=false;btn.innerHTML='▶ Run';}
+    // Mark done if code is non-trivial
+    var r=chk(code,n);
+    if(r.ok)markDone(n);
+    var dv=document.getElementById('RDONE');
+    if(dv)dv.innerHTML=r.ok?'<span style="color:#4ade80;font-size:12px">✓ '+r.m+'</span>':'<span style="color:#60a5fa;font-size:12px">'+r.m+'</span>';
+  }).catch(function(e){
+    if(_outEl){_outEl.className='out-real err';_outEl.textContent=e.message||String(e);}
+    if(btn){btn.disabled=false;btn.innerHTML='▶ Run';}
+  });
+}
+
+function resetEx(n){
+  var ed=document.getElementById('EX');
+  if(ed){ed.value='';ed.focus();}
+  var o=document.getElementById('ROUT');
+  if(o){o.className='out-real ph';o.textContent='Run your code to see output here…';}
+  var dv=document.getElementById('RDONE');if(dv)dv.innerHTML='';
+}
+
+function showAnswer(n){
+  var ed=document.getElementById('EX');
+  if(ed){ed.value=lessons[n].ph;ed.focus();}
+}
+
 function runEx(n){
   var code=document.getElementById('EX').value;
-  var r=chk(code,n);
-  document.getElementById('EO').innerHTML='<div class="'+(r.ok?'osuccess':'oinfo')+'">'+r.m+'</div>';
-  if(r.ok)markDone(n);
+  runPy(code,n);
 }
+
 function toggleHint(){var h=document.getElementById('HB');h.style.display=h.style.display==='block'?'none':'block';}
 
 function dts(){return '<div class="dots"><div class="dot" style="background:#ff5f57"></div><div class="dot" style="background:#febc2e"></div><div class="dot" style="background:#28c840"></div></div>';}
 function codeBlock(fn,code){return '<div class="cb"><div class="cbh">'+dts()+fn+'</div><pre class="pre">'+code+'</pre></div>';}
-function ex(n,prompt,hint,ph){return '<div class="ex"><div class="exh">✏️ Try it yourself</div><div class="exp">'+prompt+'</div><textarea class="cin" id="EX" placeholder="'+ph.replace(/"/g,'&quot;').replace(/\n/g,'&#10;')+'" spellcheck="false"></textarea><div class="exa"><button class="brun" onclick="runEx('+n+')">▶ Run</button><button class="bhint" onclick="toggleHint()">💡 Hint</button>'+(done.has(n)?'<span style="color:#4ade80;font-size:12px;margin-left:4px">✓ Complete</span>':'')+'</div><div class="hbox" id="HB">'+hint+'</div><div id="EO"></div></div>';}
+function ex(n,prompt,hint,ph){
+  var isDone=done.has(n);
+  return '<div class="ex">'
+    +'<div class="exh">✏️ Try it yourself</div>'
+    +'<div class="exp">'+prompt+'</div>'
+    +'<textarea class="cin" id="EX" spellcheck="false" placeholder="Write your Python code here…"></textarea>'
+    +'<div class="run-row-live">'
+      +'<span class="run-label">▸ Live Python</span>'
+      +'<button class="breset" onclick="resetEx('+n+')" title="Clear editor">↺ Clear</button>'
+      +'<button class="bhint" onclick="toggleHint()">💡 Hint</button>'
+      +'<button class="breset" onclick="showAnswer('+n+')" style="color:#fb923c;border-color:rgba(251,146,60,.4)">👁 Answer</button>'
+      +'<button class="brun-live" id="RBTN" onclick="runEx('+n+')">▶ Run</button>'
+    +'</div>'
+    +'<div class="out-real ph" id="ROUT">Run your code to see output here…</div>'
+    +'<div class="hbox" id="HB">'+hint+'</div>'
+    +'<div id="RDONE">'+(isDone?'<span style="color:#4ade80;font-size:12px">✓ Already completed</span>':'')+'</div>'
+    +'</div>';
+}
 function navRow(n){var prev=n>0?'<button class="bnav" onclick="go('+(n-1)+')">← Previous</button>':'<button class="bnav" disabled>← Previous</button>';var next=n<19?'<button class="bnav p" onclick="go('+(n+1)+')">Next →</button>':'<button class="bnav p" onclick="go(0)">↺ Start over</button>';return '<div class="nr">'+prev+next+'</div>';}
 
 var lessons=[
@@ -477,6 +576,7 @@ function render(n){
 }
 
 render(0);
+initPyodide();
 </script>
 </body>
 </html>
