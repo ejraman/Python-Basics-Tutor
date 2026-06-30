@@ -249,7 +249,7 @@ async function sendQ(){
   hist.push({role:'user',content:txt});
   busy=true;document.getElementById('TS').disabled=true;
   showDots();
-  var sys='You are a Python tutor for beginners. Current lesson: '+LN[cur]+'. ONLY answer Python programming questions. If asked anything unrelated to Python, politely decline and redirect to the lesson. Keep answers under 150 words. Use simple analogies. Use **bold** for key terms. Use code blocks for code examples.';
+  var sys='You are a friendly Python tutor for Alex, a beginner learning Python who knows SQL, Data Science, ML/Current lesson: '+LN[cur]+'. Keep answers under 150 words. Use short analogies. Relate to trading where natural. Use **bold** for key terms. Use code blocks for code examples.';
   try{
     var r=await fetch('https://python-tutor-proxy.ejraman.workers.dev',{method:'POST',headers:{'Content-Type':'application/json','anthropic-version':'2023-06-01'},body:JSON.stringify({model:'claude-sonnet-4-6',max_tokens:500,system:sys,messages:hist})});
     var data=await r.json();
@@ -606,7 +606,7 @@ function buildPQ(n){
 
 var lessons=[
 {b:'Lesson 01 · Layer 1',t:'Variables and data types',i:'A variable is a labelled box. You put data in, give it a name, and use that name whenever you need the data. This is the foundation of everything.',
- body:'<div class="box"><div class="bh">The analogy</div><p style="color:#e8eaf0;font-size:13px;margin-bottom:8px">Your phone contacts: "Alice" is the label (variable name). The phone number stored under it is the value.</p><div class="analogy">name = "Alex" — create a box, label it name, put the text Alex inside.</div></div>CODEBLOCK_0<table class="tbl"><thead><tr><th>Type</th><th>Example</th><th>What it holds</th></tr></thead><tbody><tr><td>str</td><td><code>"Hello"</code></td><td>Text — always in quotes</td></tr><tr><td>int</td><td><code>20</code></td><td>Whole number</td></tr><tr><td>float</td><td><code>98.5</code></td><td>Decimal number</td></tr><tr><td>bool</td><td><code>True</code></td><td>True or False only</td></tr></tbody></table>',
+ body:'<div class="box"><div class="bh">The analogy</div><p style="color:#e8eaf0;font-size:13px;margin-bottom:8px">Your phone contacts: "Sam" is the label (variable name). The phone number stored under it is the value.</p><div class="analogy">name = "Alex" — create a box, label it name, put the text Alex inside.</div></div>CODEBLOCK_0<table class="tbl"><thead><tr><th>Type</th><th>Example</th><th>What it holds</th></tr></thead><tbody><tr><td>str</td><td><code>"Hello"</code></td><td>Text — always in quotes</td></tr><tr><td>int</td><td><code>20</code></td><td>Whole number</td></tr><tr><td>float</td><td><code>98.5</code></td><td>Decimal number</td></tr><tr><td>bool</td><td><code>True</code></td><td>True or False only</td></tr></tbody></table>',
  code:['variables.py','name       = "Alex"    # text — string\nage        = 20        # whole number — integer\ngpa        = 3.85      # decimal — float\nis_student = True      # yes or no — boolean\n\nprint(name)\nprint(f"I am {name}, age {age}, GPA: {gpa}")'],
  prompt:'Create 3 variables: your <code>name</code>, your <code>age</code>, and <code>is_student</code> (True or False). Print all three using an f-string.',
  hint:'name = "Alex"  |  age = 20  |  is_student = True  |  print(f"My name is {name}, age {age}")',
